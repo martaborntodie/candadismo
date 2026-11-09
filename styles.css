@@ -424,3 +424,4 @@ body { padding-top: var(--ph); }
   .pm__inner { grid-template-columns: 1fr; }
   .pm__media img { max-height: 50vh; }
 }
+.slides__dots { gap: 5px; } .slides__dots button { width: 12px; } .slides__dots button.is-active { width: 26px; }
