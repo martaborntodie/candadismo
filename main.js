@@ -15,6 +15,25 @@
     var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
     initSlides();
     initDrag();
+    initProjects();
+  }
+
+  /* Página IA: al pulsar una imagen se abre el proyecto */
+  function initProjects() {
+    var modal = document.getElementById('projectModal');
+    if (!modal) return;
+    var inner = modal.querySelector('.pm__inner');
+    Array.prototype.forEach.call(document.querySelectorAll('.tile'), function (t) {
+      t.addEventListener('click', function () {
+        var tpl = t.querySelector('template');
+        inner.innerHTML = ''; inner.appendChild(tpl.content.cloneNode(true));
+        if (modal.showModal) modal.showModal(); else modal.setAttribute('open', '');
+        modal.scrollTop = 0;
+      });
+    });
+    function close() { if (modal.close) modal.close(); else modal.removeAttribute('open'); }
+    modal.querySelector('.pm__close').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
   }
 
   /* Portada: objetos que se arrastran y vuelven a su sitio al soltarlos */
