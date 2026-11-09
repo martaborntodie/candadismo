@@ -484,3 +484,4 @@ body { padding-top: var(--ph); }
 .pm__media--grid figure { break-inside: avoid; margin: 0 0 6px; }
 @media (min-width: 1100px) { .pm__media--grid { columns: 3; } }
 .pm__media--wide { columns: 1 !important; }
+.music--short { grid-template-columns: 1fr 1fr; } @media (max-width: 860px) { .music--short { grid-template-columns: 1fr; } }
