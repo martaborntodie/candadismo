@@ -471,3 +471,4 @@ body { padding-top: var(--ph); }
 .dj__top .dj__hero { --r: 4 / 5; aspect-ratio: var(--r) !important; max-height: none; width: min(100%, calc((100vh - var(--ph) - 150px) * var(--r))); justify-self: center; transition: width .6s ease, aspect-ratio .6s ease; }
 .dj__hero .slides img { object-fit: contain !important; background: #000; }
 @media (max-width: 860px) { .dj__top .dj__hero { width: min(100%, calc(60vh * var(--r))); max-height: none; } }
+.pm__media--stack img { width: 100%; height: auto; max-height: none; object-fit: contain; display: block; }
