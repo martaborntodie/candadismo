@@ -26,6 +26,16 @@
   var root = document.getElementById('player');
   if (!root) return;
 
+  /* Orden totalmente aleatorio: se baraja en cada visita y al terminar la ronda */
+  function shuffled(n, avoidFirst) {
+    var a = [], k, j, t;
+    for (k = 0; k < n; k++) a.push(k);
+    for (k = n - 1; k > 0; k--) { j = Math.floor(Math.random() * (k + 1)); t = a[k]; a[k] = a[j]; a[j] = t; }
+    if (n > 1 && a[0] === avoidFirst) { t = a[0]; a[0] = a[1]; a[1] = t; }
+    return a;
+  }
+  var order = shuffled(TRACKS.length), pos = 0;
+
   root.innerHTML =
     '<div class="player__inner">' +
       '<button class="pl-btn pl-prev" aria-label="Anterior">' + icon('prev') + '</button>' +
@@ -39,14 +49,14 @@
     '</div>' +
     '<ol class="pl-list" hidden></ol>' +
     '<iframe class="pl-frame" title="SoundCloud" allow="autoplay" src="https://w.soundcloud.com/player/?url=' +
-      encodeURIComponent(TRACKS[0].url) + '&auto_play=false&visual=false"></iframe>';
+      encodeURIComponent(TRACKS[order[0]].url) + '&auto_play=false&visual=false"></iframe>';
 
   var $ = function (s) { return root.querySelector(s); };
   var playBtn = $('.pl-play'), titleEl = $('.pl-title'),
       fill = $('.pl-fill'), timeEl = $('.pl-time'), bar = $('.pl-bar'),
       list = $('.pl-list'), listBtn = $('.pl-listbtn');
 
-  var idx = 0, playing = false, duration = 0, ready = false, widget = null;
+  var idx = order[0], playing = false, duration = 0, ready = false, widget = null;
 
   TRACKS.forEach(function (t, i) {
     var li = document.createElement('li'); li.dataset.i = i;
@@ -84,8 +94,14 @@
     widget.getCurrentSound(function (s) { showMeta(s); });
     widget.getDuration(function (d) { duration = d; });
   }
+  function step(dir) {
+    pos += dir;
+    if (pos >= order.length) { order = shuffled(TRACKS.length, idx); pos = 0; }
+    if (pos < 0) pos = order.length - 1;
+    loadTrack(order[pos], true);
+  }
   function loadTrack(i, autoplay) {
-    idx = (i + TRACKS.length) % TRACKS.length;
+    idx = i; pos = order.indexOf(i);
     fill.style.width = '0%'; timeEl.textContent = '0:00'; showMeta();
     if (!widget) return;
     widget.load(TRACKS[idx].url, {
@@ -99,8 +115,8 @@
   }
 
   playBtn.addEventListener('click', function () { if (widget && ready) widget.toggle(); });
-  $('.pl-next').addEventListener('click', function () { loadTrack(idx + 1, true); });
-  $('.pl-prev').addEventListener('click', function () { loadTrack(idx - 1, true); });
+  $('.pl-next').addEventListener('click', function () { step(1); });
+  $('.pl-prev').addEventListener('click', function () { step(-1); });
   listBtn.addEventListener('click', function () { toggleList(); });
   document.addEventListener('click', function (e) { if (!root.contains(e.target)) toggleList(false); });
   bar.addEventListener('click', function (e) {
@@ -119,7 +135,7 @@
     widget.bind(E.FINISH, function () {
       widget.getSounds(function (s) {
         widget.getCurrentSoundIndex(function (i) {
-          if (s && s.length > 1 && i < s.length - 1) widget.next(); else loadTrack(idx + 1, true);
+          if (s && s.length > 1 && i < s.length - 1) widget.next(); else step(1);
         });
       });
     });
