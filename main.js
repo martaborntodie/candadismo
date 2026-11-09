@@ -37,6 +37,9 @@
       b.addEventListener('click', function () { show(k); restart(); }); dots.appendChild(b);
     })(k);
     function restart() { clearInterval(slideTimer); slideTimer = setInterval(function () { show(i + 1); }, 4500); }
+    box.onclick = function () { show(i + 1); restart(); };
+    box.style.cursor = 'pointer';
+    box.setAttribute('title', 'Siguiente foto');
     show(0); restart();
   }
   initPage();
