@@ -18,8 +18,24 @@
     initProjects();
   }
 
+  /* Página IA: los vídeos de la galería solo cargan y suenan (sin sonido) cuando se ven */
+  function initLazyVideos() {
+    var vids = document.querySelectorAll('video[data-autoplay]');
+    if (!vids.length) return;
+    if (!('IntersectionObserver' in window)) { Array.prototype.forEach.call(vids, function (v) { v.play && v.play(); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    }, { rootMargin: '200px 0px' });
+    Array.prototype.forEach.call(vids, function (v) { v.muted = true; io.observe(v); });
+  }
+
   /* Página IA: al pulsar una imagen se abre el proyecto */
   function initProjects() {
+    initLazyVideos();
     var modal = document.getElementById('projectModal');
     if (!modal) return;
     var inner = modal.querySelector('.pm__inner');
@@ -29,6 +45,7 @@
         inner.innerHTML = ''; inner.appendChild(tpl.content.cloneNode(true));
         if (modal.showModal) modal.showModal(); else modal.setAttribute('open', '');
         modal.scrollTop = 0;
+        var first = inner.querySelector('.pm__media--grid video'); if (first) { var pp = first.play(); if (pp && pp.catch) pp.catch(function () {}); }
       });
     });
     function close() { if (modal.close) modal.close(); else modal.removeAttribute('open'); inner.innerHTML = ''; }

@@ -472,3 +472,10 @@ body { padding-top: var(--ph); }
 .dj__hero .slides img { object-fit: contain !important; background: #000; }
 @media (max-width: 860px) { .dj__top .dj__hero { width: min(100%, calc(60vh * var(--r))); max-height: none; } }
 .pm__media--stack img { width: 100%; height: auto; max-height: none; object-fit: contain; display: block; }
+.pm__media--grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 6px; background: #000; align-content: start; }
+.pm__media--grid figure { margin: 0; }
+.pm__media--grid video { width: 100%; height: auto; display: block; }
+.pm__media--grid figcaption { color: #aaa; font-size: 10px; padding: 6px 2px 4px; }
+@media (min-width: 1100px) { .pm__media--grid { grid-template-columns: repeat(3, 1fr); } }
+.pm__inner:has(.pm__media--grid) { align-items: start; }
+.pm__media--grid + .pm__body { position: sticky; top: 0; align-self: start; }
