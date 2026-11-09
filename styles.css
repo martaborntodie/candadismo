@@ -460,3 +460,14 @@ body { padding-top: var(--ph); }
   .tile--5 { grid-column: auto; grid-row: span 2; }
   .tile--3, .tile--4 { grid-column: auto; }
 }
+
+/* ===== keep original formats: masonry gallery (no cropping) ===== */
+.gallery { display: block; columns: 3; column-gap: 10px; }
+.gallery .tile { display: block; width: 100%; height: auto; margin: 0 0 10px; break-inside: avoid; grid-row: auto !important; grid-column: auto !important; }
+.gallery .tile img, .gallery .tile video { width: 100%; height: auto; object-fit: contain; }
+@media (max-width: 860px) { .gallery { columns: 2; column-gap: 6px; } .gallery .tile { margin-bottom: 6px; } }
+
+/* ===== DJ slideshow: frame follows each photo/video's own shape ===== */
+.dj__top .dj__hero { --r: 4 / 5; aspect-ratio: var(--r) !important; max-height: none; width: min(100%, calc((100vh - var(--ph) - 150px) * var(--r))); justify-self: center; transition: width .6s ease, aspect-ratio .6s ease; }
+.dj__hero .slides img { object-fit: contain !important; background: #000; }
+@media (max-width: 860px) { .dj__top .dj__hero { width: min(100%, calc(60vh * var(--r))); max-height: none; } }
