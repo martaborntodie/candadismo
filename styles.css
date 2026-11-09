@@ -447,3 +447,7 @@ body { padding-top: var(--ph); }
   .tile--5 { grid-column: span 2; }
 }
 .slides__dots button.is-video { background: rgba(255,255,255,.6); height: 5px; margin-top: -1px; }
+.tile--cumaco { grid-column: span 2; grid-row: span 2; }
+.pm__media--stack { display: flex; flex-direction: column; gap: 4px; align-self: stretch; }
+.pm__media--stack video { max-height: none; height: auto; }
+@media (max-width: 860px) { .tile--cumaco { grid-column: span 2; grid-row: span 1; } }
