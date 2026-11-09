@@ -13,6 +13,31 @@
     var btn = document.getElementById('langBtn');
     if (btn) btn.addEventListener('click', function () { setLang(root.getAttribute('data-lang') === 'en' ? 'es' : 'en'); });
     var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+    initSlides();
+  }
+
+  /* Pase de fotos (página DJ) */
+  var slideTimer = null;
+  function initSlides() {
+    clearInterval(slideTimer);
+    var box = document.querySelector('[data-slides]');
+    if (!box) return;
+    var imgs = box.querySelectorAll('img'), dots = box.parentNode.querySelector('.slides__dots'), i = 0;
+    if (imgs.length < 2) return;
+    dots.innerHTML = '';
+    function show(n) {
+      i = (n + imgs.length) % imgs.length;
+      for (var k = 0; k < imgs.length; k++) {
+        imgs[k].classList.toggle('is-active', k === i);
+        dots.children[k].classList.toggle('is-active', k === i);
+      }
+    }
+    for (var k = 0; k < imgs.length; k++) (function (k) {
+      var b = document.createElement('button'); b.setAttribute('aria-label', 'Foto ' + (k + 1));
+      b.addEventListener('click', function () { show(k); restart(); }); dots.appendChild(b);
+    })(k);
+    function restart() { clearInterval(slideTimer); slideTimer = setInterval(function () { show(i + 1); }, 4500); }
+    show(0); restart();
   }
   initPage();
 
