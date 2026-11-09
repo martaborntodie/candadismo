@@ -451,3 +451,12 @@ body { padding-top: var(--ph); }
 .pm__media--stack { display: flex; flex-direction: column; gap: 4px; align-self: stretch; }
 .pm__media--stack video { max-height: none; height: auto; }
 @media (max-width: 860px) { .tile--cumaco { grid-column: span 2; grid-row: span 1; } }
+/* gallery layout v3 (8 tiles) */
+.tile--5 { grid-column: auto; grid-row: span 2; }
+.tile--23 { grid-row: span 2; }
+.tile--3, .tile--4 { grid-column: span 2; }
+.tile--3 img { object-position: center 40%; }
+@media (max-width: 860px) {
+  .tile--5 { grid-column: auto; grid-row: span 2; }
+  .tile--3, .tile--4 { grid-column: auto; }
+}
