@@ -2,13 +2,17 @@
    Para cambiar la lista: edita TRACKS (url de SoundCloud + título). */
 (function () {
   var TRACKS = [
-    { url: 'https://soundcloud.com/deprerreo/candadismo-bim-bom-bam-1', title: 'Bim Bom Bam' },
-    { url: 'https://soundcloud.com/deprerreo/lmiranda-x-malandra-escuchala', title: 'LMiranda x Malandra — Escúchala' },
-    { url: 'https://soundcloud.com/pikoteo/5f3d3866-4453-4344-b79f-68c1a0aa5e35', title: 'Pikoteo' },
-    { url: 'https://soundcloud.com/deprerreo/candadismo-bim-bom-bam-remix-by-gitano-del-futuro', title: 'Bim Bom Bam (Gitano del Futuro remix)' },
-    { url: 'https://soundcloud.com/deprerreo/la-cantera-mixes-01-candadismo', title: 'La Cantera Mixes 01' },
-    { url: 'https://soundcloud.com/rinsefm/lizz-presents-candadismo-03-july-2025', title: 'LIZZ presents Candadismo — Rinse FM' },
-    { url: 'https://soundcloud.com/itsplasmaradio/113-candadismo-deprerreo', title: 'Plasma Radio 113 — Candadismo' }
+    { url: "https://soundcloud.com/candadismo/mi-1er-mix", title: "Mi 1er mix" },
+    { url: "https://soundcloud.com/candadismo/super-uraniana-mix", title: "Super Uraniana Mix" },
+    { url: "https://soundcloud.com/individualactivities/candadismo2026", title: "Individual Activities — Candadismo 2026" },
+    { url: "https://soundcloud.com/santasedelabel/ssdmix-008-candadismo-cuando-el-deseo-desarma-la-realidad", title: "SSDMIX 008 — Cuando el deseo desarma la realidad" },
+    { url: "https://soundcloud.com/rinsefm/lizz-presents-candadismo-03-july-2025", title: "LIZZ presents Candadismo — Rinse FM" },
+    { url: "https://soundcloud.com/vanta-black-986864415/deprerreo-lmiranda-b2b-candadismo-vanta-radio", title: "Deprerreo: LMiranda b2b Candadismo — Vanta Radio" },
+    { url: "https://soundcloud.com/deprerreo/lmiranda-x-malandra-escuchala", title: "LMiranda x Malandra — Escúchala" },
+    { url: "https://soundcloud.com/nofutureberlin/n-o-f-u-t-u-r-e-x-candadismo", title: "N.O.F.U.T.U.R.E x Candadismo" },
+    { url: "https://soundcloud.com/cuntryclub/009candadismo", title: "Cuntry Club 009 — Candadismo" },
+    { url: "https://soundcloud.com/itsplasmaradio/113-candadismo-deprerreo", title: "Plasma Radio 113 — Candadismo" },
+    { url: "https://soundcloud.com/deprerreo/la-cantera-mixes-01-candadismo", title: "La Cantera Mixes 01" }
   ];
   var PROFILE = 'https://soundcloud.com/candadismo';
 

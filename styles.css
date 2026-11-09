@@ -312,3 +312,8 @@ body { padding-top: var(--ph); }
 @media (max-width: 860px) { .pl-meta { max-width: none; flex: 1 1 auto; } .nav__logo { font-size: 18px; } }
 .lang, .nav__links a { white-space: nowrap; }
 @media (max-width: 860px) { .nav { gap: 12px; } .nav__links a { font-size: 10px; } }
+
+/* music: all mixes */
+.music { grid-template-columns: 1fr; }
+.music__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px; }
+@media (max-width: 860px) { .music__grid { grid-template-columns: 1fr; } }
