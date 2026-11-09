@@ -2,17 +2,24 @@
    Para cambiar la lista: edita TRACKS (url de SoundCloud + título). */
 (function () {
   var TRACKS = [
-    { url: "https://soundcloud.com/candadismo/mi-1er-mix", title: "Mi 1er mix" },
-    { url: "https://soundcloud.com/candadismo/super-uraniana-mix", title: "Super Uraniana Mix" },
-    { url: "https://soundcloud.com/individualactivities/candadismo2026", title: "Individual Activities — Candadismo 2026" },
-    { url: "https://soundcloud.com/santasedelabel/ssdmix-008-candadismo-cuando-el-deseo-desarma-la-realidad", title: "SSDMIX 008 — Cuando el deseo desarma la realidad" },
-    { url: "https://soundcloud.com/rinsefm/lizz-presents-candadismo-03-july-2025", title: "LIZZ presents Candadismo — Rinse FM" },
-    { url: "https://soundcloud.com/vanta-black-986864415/deprerreo-lmiranda-b2b-candadismo-vanta-radio", title: "Deprerreo: LMiranda b2b Candadismo — Vanta Radio" },
-    { url: "https://soundcloud.com/deprerreo/lmiranda-x-malandra-escuchala", title: "LMiranda x Malandra — Escúchala" },
-    { url: "https://soundcloud.com/nofutureberlin/n-o-f-u-t-u-r-e-x-candadismo", title: "N.O.F.U.T.U.R.E x Candadismo" },
-    { url: "https://soundcloud.com/cuntryclub/009candadismo", title: "Cuntry Club 009 — Candadismo" },
-    { url: "https://soundcloud.com/itsplasmaradio/113-candadismo-deprerreo", title: "Plasma Radio 113 — Candadismo" },
-    { url: "https://soundcloud.com/deprerreo/la-cantera-mixes-01-candadismo", title: "La Cantera Mixes 01" }
+    { url: "https://soundcloud.com/deprerreo/candadismo-bim-bom-bam-1", title: "Bim Bom Bam", kind: "track" },
+    { url: "https://soundcloud.com/deprerreo/lmiranda-x-malandra-escuchala", title: "LMiranda x Malandra — Escúchala", kind: "track" },
+    { url: "https://soundcloud.com/deprerreo/sorry-kitten-candadismo-lmiranda-ibn-itaka", title: "Sorry Kitten — Candadismo, LMiranda, Ibn Itaka", kind: "track" },
+    { url: "https://soundcloud.com/pikoteo/5f3d3866-4453-4344-b79f-68c1a0aa5e35", title: "Pikoteo", kind: "track" },
+    { url: "https://soundcloud.com/deprerreo/sets/ep-bim-bom-bam-remixes", title: "EP Bim Bom Bam (Remixes)", kind: "track" },
+    { url: "https://soundcloud.com/globalc0re/lmiranda-x-candadismo-x-kruela-x-malandra-marcha-marcha-16", title: "LMiranda x Candadismo x Kruela x Malandra — Marcha Marcha 16", kind: "track" },
+    { url: "https://soundcloud.com/candadismo/pin-pon-pan-pun", title: "Pin Pon Pan Pun", kind: "track" },
+    { url: "https://soundcloud.com/candadismo/angeles-estamos-aqui", title: "Ángeles estamos aquí", kind: "track" },
+    { url: "https://soundcloud.com/candadismo/mi-1er-mix", title: "Mi 1er mix", kind: "mix" },
+    { url: "https://soundcloud.com/candadismo/super-uraniana-mix", title: "Super Uraniana Mix", kind: "mix" },
+    { url: "https://soundcloud.com/individualactivities/candadismo2026", title: "Individual Activities — Candadismo 2026", kind: "mix" },
+    { url: "https://soundcloud.com/santasedelabel/ssdmix-008-candadismo-cuando-el-deseo-desarma-la-realidad", title: "SSDMIX 008 — Cuando el deseo desarma la realidad", kind: "mix" },
+    { url: "https://soundcloud.com/rinsefm/lizz-presents-candadismo-03-july-2025", title: "LIZZ presents Candadismo — Rinse FM", kind: "mix" },
+    { url: "https://soundcloud.com/vanta-black-986864415/deprerreo-lmiranda-b2b-candadismo-vanta-radio", title: "Deprerreo: LMiranda b2b Candadismo — Vanta Radio", kind: "mix" },
+    { url: "https://soundcloud.com/nofutureberlin/n-o-f-u-t-u-r-e-x-candadismo", title: "N.O.F.U.T.U.R.E x Candadismo", kind: "mix" },
+    { url: "https://soundcloud.com/cuntryclub/009candadismo", title: "Cuntry Club 009 — Candadismo", kind: "mix" },
+    { url: "https://soundcloud.com/itsplasmaradio/113-candadismo-deprerreo", title: "Plasma Radio 113 — Candadismo", kind: "mix" },
+    { url: "https://soundcloud.com/deprerreo/la-cantera-mixes-01-candadismo", title: "La Cantera Mixes 01", kind: "mix" }
   ];
   var PROFILE = 'https://soundcloud.com/candadismo';
 
@@ -42,7 +49,10 @@
   var idx = 0, playing = false, duration = 0, ready = false, widget = null;
 
   TRACKS.forEach(function (t, i) {
-    var li = document.createElement('li');
+    var li = document.createElement('li'); li.dataset.i = i;
+    if (i === 0 || TRACKS[i - 1].kind !== t.kind) {
+      var h = document.createElement('li'); h.className = 'pl-head'; h.textContent = t.kind === 'mix' ? 'Mixes' : 'Tracks'; list.appendChild(h);
+    }
     li.innerHTML = '<button>' + t.title + '</button>';
     li.firstChild.addEventListener('click', function () { loadTrack(i, true); toggleList(false); });
     list.appendChild(li);
@@ -68,7 +78,7 @@
   }
   function showMeta(sound) {
     titleEl.textContent = (sound && sound.title) || TRACKS[idx].title;
-    Array.prototype.forEach.call(list.children, function (li, i) { li.classList.toggle('is-current', i === idx); });
+    Array.prototype.forEach.call(list.querySelectorAll('li[data-i]'), function (li) { li.classList.toggle('is-current', +li.dataset.i === idx); });
   }
   function refreshSound() {
     widget.getCurrentSound(function (s) { showMeta(s); });
@@ -106,7 +116,13 @@
     widget.bind(E.READY, function () { ready = true; root.classList.add('is-ready'); refreshSound(); });
     widget.bind(E.PLAY, function () { setPlaying(true); refreshSound(); });
     widget.bind(E.PAUSE, function () { setPlaying(false); });
-    widget.bind(E.FINISH, function () { loadTrack(idx + 1, true); });
+    widget.bind(E.FINISH, function () {
+      widget.getSounds(function (s) {
+        widget.getCurrentSoundIndex(function (i) {
+          if (s && s.length > 1 && i < s.length - 1) widget.next(); else loadTrack(idx + 1, true);
+        });
+      });
+    });
     widget.bind(E.PLAY_PROGRESS, function (e) {
       fill.style.width = (e.relativePosition * 100) + '%';
       timeEl.textContent = fmt(e.currentPosition);
