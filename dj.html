@@ -11,12 +11,14 @@
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body class="page-dj">
+<div id="player" class="player"></div>
+<div id="app">
 <header class="nav">
-  <a href="index.html" class="nav__logo">CANDADISMO</a>
+  <a href="index.html" class="nav__logo"><img src="assets/img/logo-candadismo.png" alt="Candadismo"></a>
   <nav class="nav__links">
     <a href="ia.html"><span class="en">AI Creative</span><span class="es">Trabajos IA</span> →</a>
     <a href="#contact"><span class="en">Contact</span><span class="es">Contacto</span></a>
@@ -27,7 +29,7 @@
 <section class="dj" id="dj">
   <div class="dj__hero">
     <img src="assets/img/dj-hero.jpg" alt="Candadismo — DJ portrait">
-    <h2 class="display dj__title">Candadismo</h2>
+    <h2 class="dj__title"><img src="assets/img/logo-candadismo.png" alt="Candadismo"></h2>
     <a class="mono dj__back" href="index.html">← Home</a>
     <p class="mono dj__kicker">02 — DJ · <span class="en">producer</span><span class="es">productora</span> · Deprerreo</p>
   </div>
@@ -65,7 +67,7 @@
     </div>
   </div>
 
-  <h3 class="display dj__sub">GREATEST HITS</h3>
+  <h3 class="display dj__sub">GREATEST <span class="alt">hits</span></h3>
   <div class="music">
     <div class="music__col">
       <p class="mono label">MIXES</p>
@@ -91,8 +93,8 @@
 
 <!-- ========== CONTACT ========== -->
 <footer class="contact contact--dark" id="contact">
-  <p class="mono kicker"><span class="en">Let’s work together</span><span class="es">Trabajemos juntas</span></p>
-  <a class="display contact__mail" href="mailto:martacruzortiz2000@gmail.com">martacruzortiz2000<wbr>@gmail.com</a>
+  <p class="mono kicker"><span class="en">Bookings</span><span class="es">Contrataciones</span></p>
+  <a class="display contact__mail" href="mailto:deprerreoforever@gmail.com">deprerreoforever<wbr>@gmail.com</a>
   <div class="contact__links mono">
     <a href="https://www.instagram.com/candadismo/" target="_blank" rel="noopener">Instagram @candadismo ↗</a>
     <a href="https://soundcloud.com/candadismo" target="_blank" rel="noopener">SoundCloud ↗</a>
@@ -100,6 +102,9 @@
   <p class="mono small">© <span id="year">2026</span> Marta Cruz Ortiz · Barcelona</p>
 </footer>
 
+</div>
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script src="player.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
