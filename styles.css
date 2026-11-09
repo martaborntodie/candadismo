@@ -353,3 +353,28 @@ body { padding-top: var(--ph); }
 }
 .btn--pink { color: #0b0b0b !important; font-weight: 700; }
 .dj__hero::after { pointer-events: none; }
+
+/* ===== landing: floating + draggable objects ===== */
+.gate__head { padding-right: 110px; }
+.gate__doors { align-items: center; }
+.door { cursor: grab; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.drag { display: block; touch-action: none; will-change: transform; position: relative; z-index: 1; }
+.drag.is-dragging { z-index: 5; cursor: grabbing; }
+.drag.is-returning { transition: transform .9s cubic-bezier(.34, 1.56, .64, 1); }
+.door .obj { animation: float 6s ease-in-out infinite; transform: none !important; }
+.door--dj .obj { animation-duration: 7.5s; animation-delay: -2.5s; }
+@keyframes float {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  25% { translate: 4px -12px; rotate: -1deg; }
+  50% { translate: 0 -20px; rotate: .6deg; }
+  75% { translate: -4px -9px; rotate: 1.1deg; }
+}
+.obj img { mix-blend-mode: multiply; pointer-events: none; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.door--ia:hover .obj img, .door--ia .is-dragging .obj img { transform: scale(1.04); }
+.door--dj:hover .obj img, .door--dj .is-dragging .obj img { transform: rotate(-3deg) scale(1.04); }
+.door--ia .is-dragging .tv__on { animation: crt-on .7s steps(1, end) forwards; }
+.tv { width: clamp(220px, 27vw, 410px); }
+.cdj { width: clamp(280px, 38vw, 580px); }
+@media (prefers-reduced-motion: reduce) { .door .obj { animation: none; } }
+@media (max-width: 860px) { .gate__doors { gap: 40px; } }
+.obj img { mix-blend-mode: normal; }
