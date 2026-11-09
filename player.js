@@ -20,8 +20,7 @@
       '<button class="pl-btn pl-prev" aria-label="Anterior">' + icon('prev') + '</button>' +
       '<button class="pl-btn pl-play" aria-label="Play">' + icon('play') + '</button>' +
       '<button class="pl-btn pl-next" aria-label="Siguiente">' + icon('next') + '</button>' +
-      '<span class="pl-art"></span>' +
-      '<span class="pl-meta"><span class="pl-title"></span><span class="pl-artist">Candadismo</span></span>' +
+      '<span class="pl-meta"><span class="pl-title"></span><span class="pl-artist">— Candadismo</span></span>' +
       '<span class="pl-bar" role="slider" aria-label="Progreso"><span class="pl-fill"></span></span>' +
       '<span class="pl-time">0:00</span>' +
       '<button class="pl-btn pl-listbtn" aria-label="Lista" aria-expanded="false">' + icon('list') + '</button>' +
@@ -32,7 +31,7 @@
       encodeURIComponent(TRACKS[0].url) + '&auto_play=false&visual=false"></iframe>';
 
   var $ = function (s) { return root.querySelector(s); };
-  var playBtn = $('.pl-play'), titleEl = $('.pl-title'), artEl = $('.pl-art'),
+  var playBtn = $('.pl-play'), titleEl = $('.pl-title'),
       fill = $('.pl-fill'), timeEl = $('.pl-time'), bar = $('.pl-bar'),
       list = $('.pl-list'), listBtn = $('.pl-listbtn');
 
@@ -54,7 +53,7 @@
       next: '<path d="M15.5 5H18v14h-2.5zM4 5v14l10.5-7z"/>',
       list: '<path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h10v2H4z"/>'
     }[n];
-    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">' + p + '</svg>';
+    return '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">' + p + '</svg>';
   }
   function fmt(ms) { var s = Math.floor(ms / 1000); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
   function setPlaying(p) {
@@ -65,8 +64,6 @@
   }
   function showMeta(sound) {
     titleEl.textContent = (sound && sound.title) || TRACKS[idx].title;
-    var art = sound && (sound.artwork_url || (sound.user && sound.user.avatar_url));
-    artEl.style.backgroundImage = art ? 'url(' + art.replace('-large', '-t200x200') + ')' : '';
     Array.prototype.forEach.call(list.children, function (li, i) { li.classList.toggle('is-current', i === idx); });
   }
   function refreshSound() {

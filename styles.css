@@ -9,7 +9,7 @@
   --display: Impact, "Anton", Haettenschweiler, "Arial Narrow Bold", sans-serif;
   --mono: "Red Hat Display", system-ui, sans-serif;
   --sans: "Red Hat Display", system-ui, sans-serif;
-  --ph: 56px;
+  --ph: 34px;
   --pad: clamp(20px, 5vw, 72px);
 }
 
@@ -293,3 +293,22 @@ body { padding-top: var(--ph); }
   background-size: auto, cover, auto; background-position: center; background-blend-mode: normal, multiply, normal;
 }
 .page-dj .nav { background: rgba(11,11,11,.85); }
+
+/* ===== compact player + text logo (override) ===== */
+.player__inner { gap: 6px; }
+.pl-btn { width: 24px; height: 24px; }
+.pl-play { width: 24px; height: 24px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); }
+.pl-meta { flex-direction: row; align-items: baseline; gap: 8px; flex: 0 1 auto; max-width: 40vw; margin-left: 6px; }
+.pl-title { font-size: 12px; }
+.pl-artist { font-size: 10px; white-space: nowrap; }
+.pl-bar { height: 2px; margin: 0 10px; }
+.pl-time, .pl-sc { font-size: 10px; }
+.pl-list { top: var(--ph); }
+.nav__logo { font-family: var(--display); font-size: 22px; letter-spacing: .04em; }
+.gate__logo { font-size: clamp(30px, 3.6vw, 52px); letter-spacing: .03em; }
+.gate__logo, .nav__logo, .dj__title { background: var(--worn) !important; background-blend-mode: multiply !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent; }
+.gate__logo, .nav__logo { -webkit-text-stroke: 1px rgba(60,62,66,.5); }
+.dj__title { width: auto; font-size: clamp(70px, 14vw, 230px); -webkit-text-stroke: 1px rgba(255,255,255,.25) !important; filter: drop-shadow(0 4px 18px rgba(0,0,0,.55)) !important; }
+@media (max-width: 860px) { .pl-meta { max-width: none; flex: 1 1 auto; } .nav__logo { font-size: 18px; } }
+.lang, .nav__links a { white-space: nowrap; }
+@media (max-width: 860px) { .nav { gap: 12px; } .nav__links a { font-size: 10px; } }
