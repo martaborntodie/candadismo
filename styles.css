@@ -352,3 +352,4 @@ body { padding-top: var(--ph); }
   .dj__venuesrow ul { grid-template-columns: 1fr 1fr; }
 }
 .btn--pink { color: #0b0b0b !important; font-weight: 700; }
+.dj__hero::after { pointer-events: none; }
