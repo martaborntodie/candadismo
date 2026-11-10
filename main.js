@@ -99,56 +99,59 @@
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
   }
 
-  /* Portada: mesa que se gira, se acerca y se recorre */
+  /* Portada: mesa. Empieza en el primer plano; se puede alejar hasta ver la mesa entera, acercar, moverse e inclinar */
   var mesaCleanup = null;
   function initMesa() {
     if (mesaCleanup) { mesaCleanup(); mesaCleanup = null; }
     var root = document.getElementById('mesa');
     if (!root) return;
     var stage = document.getElementById('mesaStage'), world = document.getElementById('mesaWorld');
-    var IW = 2400, IH = 1792, FX = 0.57, FY = 0.52;          /* punto de interés (móvil, auriculares, cartas) */
-    var st = { rx: 14, rz: 0, s: 1, tx: 0, ty: 0 };
-    var base = { w: 0, h: 0 };
+    var IW = 2400, IH = 1792;
+    var CL = { x0: 754, y0: 580, x1: 1638, y1: 1191 };            /* zona del primer plano dentro de la mesa entera */
+    var FX = (CL.x0 + CL.x1) / 2, FY = (CL.y0 + CL.y1) / 2;
+    var lim = { sMin: 1, sInit: 1, sMax: 3 };
+    var st = { s: 1, cx: FX, cy: FY, rx: 0, rz: 0 };
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
     function layout() {
       var vw = stage.clientWidth, vh = stage.clientHeight;
-      var k = Math.max(vw / IW, vh / IH);
-      if (vw < 861) k = Math.max(k, (vw * 1.9) / IW);
-      base.w = IW * k; base.h = IH * k;
-      world.style.width = base.w + 'px'; world.style.height = base.h + 'px';
-      world.style.left = (vw / 2 - base.w * FX) + 'px';
-      world.style.top = (vh / 2 - base.h * FY) + 'px';
-      world.style.transformOrigin = (FX * 100) + '% ' + (FY * 100) + '%';
+      lim.sMin = Math.max(vw / IW, vh / IH);
+      var cw = CL.x1 - CL.x0, ch = CL.y1 - CL.y0;
+      lim.sInit = vw < 861 ? Math.max(vw / (cw * 0.62), vh / IH) : Math.max(Math.min(vw / cw, vh / ch) * 1.04, lim.sMin);
+      lim.sMax = lim.sInit * 2.6;
       apply();
     }
-    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function reset() { st = { s: lim.sInit, cx: vwPortrait() ? FX + 60 : FX, cy: FY, rx: 0, rz: 0 }; apply(); }
+    function vwPortrait() { return stage.clientWidth < 861; }
     function apply() {
-      st.s = clamp(st.s, 0.8, 3.2); st.rx = clamp(st.rx, 0, 50); st.rz = clamp(st.rz, -40, 40);
-      var lim = (st.s - 0.6) * 0.45;
-      st.tx = clamp(st.tx, -base.w * lim, base.w * lim); st.ty = clamp(st.ty, -base.h * lim, base.h * lim);
-      world.style.transform = 'translate(' + st.tx + 'px,' + st.ty + 'px) rotateX(' + st.rx + 'deg) rotateZ(' + st.rz + 'deg) scale(' + st.s + ')';
+      var vw = stage.clientWidth, vh = stage.clientHeight;
+      st.s = clamp(st.s, lim.sMin, lim.sMax);
+      st.rx = clamp(st.rx, 0, 35); st.rz = clamp(st.rz, -25, 25);
+      var hw = vw / 2 / st.s, hh = vh / 2 / st.s;
+      st.cx = IW / 2 <= hw ? IW / 2 : clamp(st.cx, hw, IW - hw);
+      st.cy = IH / 2 <= hh ? IH / 2 : clamp(st.cy, hh, IH - hh);
+      world.style.transformOrigin = st.cx + 'px ' + st.cy + 'px';
+      world.style.transform = 'translate(' + (vw / 2 - st.cx) + 'px,' + (vh / 2 - st.cy) + 'px) rotateX(' + st.rx + 'deg) rotateZ(' + st.rz + 'deg) scale(' + st.s + ')';
+      if (cur) placeLabel(cur);
     }
     var pts = {}, start = null, moved = false, pinch0 = null;
     function down(e) {
       if (e.button && e.button !== 0) return;
       pts[e.pointerId] = { x: e.clientX, y: e.clientY };
       var ids = Object.keys(pts);
-      if (ids.length === 1) { start = { x: e.clientX, y: e.clientY, rx: st.rx, rz: st.rz, tx: st.tx, ty: st.ty, pan: e.shiftKey || st.s > 1.25 }; moved = false; }
+      if (ids.length === 1) { start = { x: e.clientX, y: e.clientY, cx: st.cx, cy: st.cy, rx: st.rx, rz: st.rz, tilt: e.shiftKey || e.altKey }; moved = false; }
       if (ids.length === 2) { var a = pts[ids[0]], b = pts[ids[1]]; pinch0 = { d: Math.hypot(a.x - b.x, a.y - b.y), s: st.s }; stage.classList.add('is-pinching'); }
     }
     function move(e) {
       if (!pts[e.pointerId]) { hover(e); return; }
       pts[e.pointerId] = { x: e.clientX, y: e.clientY };
       var ids = Object.keys(pts);
-      if (ids.length === 2 && pinch0) {
-        var a = pts[ids[0]], b = pts[ids[1]];
-        st.s = pinch0.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch0.d; moved = true; apply(); return;
-      }
+      if (ids.length === 2 && pinch0) { var a = pts[ids[0]], b = pts[ids[1]]; st.s = pinch0.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch0.d; moved = true; apply(); return; }
       if (!start) return;
       var dx = e.clientX - start.x, dy = e.clientY - start.y;
       if (!moved && Math.abs(dx) + Math.abs(dy) < 6) return;
       if (!moved) { moved = true; stage.classList.add('is-dragging'); try { stage.setPointerCapture(e.pointerId); } catch (er) {} }
-      if (start.pan) { st.tx = start.tx + dx; st.ty = start.ty + dy; }
-      else { st.rz = start.rz + dx * 0.12; st.rx = start.rx - dy * 0.12; }
+      if (start.tilt) { st.rz = start.rz + dx * 0.1; st.rx = start.rx - dy * 0.1; }
+      else { st.cx = start.cx - dx / st.s; st.cy = start.cy - dy / st.s; }
       apply();
     }
     function up(e) {
@@ -156,16 +159,27 @@
       if (Object.keys(pts).length < 2) { pinch0 = null; stage.classList.remove('is-pinching'); }
       if (!Object.keys(pts).length) { start = null; stage.classList.remove('is-dragging'); setTimeout(function () { moved = false; }, 30); }
     }
-    function wheel(e) { e.preventDefault(); st.s *= Math.exp(-e.deltaY * 0.0015); apply(); }
-    function zoomAt(e) {
-      var r = stage.getBoundingClientRect();
-      var cx = e.clientX - r.left - r.width / 2, cy = e.clientY - r.top - r.height / 2;
-      if (st.s < 1.6) { st.s = 2.2; st.tx = -cx * 1.1; st.ty = -cy * 1.1; } else { st.s = 1; st.tx = st.ty = 0; }
-      apply();
+    function zoomTo(ns, ex, ey) {
+      var r = stage.getBoundingClientRect(), old = st.s; ns = clamp(ns, lim.sMin, lim.sMax);
+      if (ex != null) { var ox = ex - r.left - r.width / 2, oy = ey - r.top - r.height / 2; st.cx += ox / old - ox / ns; st.cy += oy / old - oy / ns; }
+      st.s = ns; apply();
     }
+    function wheel(e) { e.preventDefault(); zoomTo(st.s * Math.exp(-e.deltaY * 0.0015), e.clientX, e.clientY); }
+    function dbl(e) { zoomTo(st.s < lim.sInit * 1.4 ? lim.sInit * 2 : lim.sInit, e.clientX, e.clientY); }
     function clickGuard(e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }
     var cur = '';
-    function setHot(k) { if (k === cur) return; root.classList.remove('is-' + cur); cur = k; if (k) root.classList.add('is-' + k); }
+    function placeLabel(k) {
+      var poly = root.querySelector('.hs--' + k + ' polygon'), lab = root.querySelector('.mesa__label[data-for="' + k + '"]');
+      if (!poly || !lab) return;
+      var b = poly.getBoundingClientRect();
+      lab.style.left = (b.left + b.width / 2) + 'px';
+      lab.style.top = Math.max(b.top + (k === 'or' ? b.height * 0.15 : 0) - 8, 86) + 'px';
+    }
+    function setHot(k) {
+      if (k === cur) return;
+      root.classList.remove('is-' + cur); cur = k;
+      if (k) { root.classList.add('is-' + k); placeLabel(k); }
+    }
     function hover(e) {
       var el = document.elementFromPoint(e.clientX, e.clientY);
       var a = el && el.closest && el.closest('.hs');
@@ -173,8 +187,7 @@
     }
     function btn(e) {
       var z = e.currentTarget.getAttribute('data-z');
-      if (z === 'in') st.s *= 1.35; else if (z === 'out') st.s /= 1.35; else { st = { rx: 14, rz: 0, s: 1, tx: 0, ty: 0 }; }
-      apply();
+      if (z === 'in') zoomTo(st.s * 1.35); else if (z === 'out') zoomTo(st.s / 1.35); else reset();
     }
     stage.addEventListener('pointerdown', down);
     stage.addEventListener('pointermove', move);
@@ -182,21 +195,21 @@
     stage.addEventListener('pointercancel', up);
     stage.addEventListener('pointerleave', function () { if (!start) setHot(''); });
     stage.addEventListener('wheel', wheel, { passive: false });
-    stage.addEventListener('dblclick', zoomAt);
+    stage.addEventListener('dblclick', dbl);
     stage.addEventListener('click', clickGuard, true);
     Array.prototype.forEach.call(root.querySelectorAll('.hs'), function (a) {
       a.addEventListener('focus', function () { setHot(a.getAttribute('data-label')); });
       a.addEventListener('blur', function () { setHot(''); });
     });
     Array.prototype.forEach.call(root.querySelectorAll('[data-z]'), function (b) { b.addEventListener('click', btn); });
-    window.addEventListener('resize', layout);
-    /* en pantallas táctiles: el móvil se enciende solo y las etiquetas se muestran un momento */
+    function onResize() { var keep = st.s / (lim.sInit || 1); layout(); st.s = lim.sInit * keep; apply(); }
+    window.addEventListener('resize', onResize);
     var t1 = null;
     if (window.matchMedia && matchMedia('(hover: none)').matches) {
-      t1 = setTimeout(function () { root.classList.add('is-ia', 'is-dj', 'is-or'); }, 900);
+      t1 = setTimeout(function () { setHot('ia'); }, 900);
     }
-    layout();
-    mesaCleanup = function () { window.removeEventListener('resize', layout); clearTimeout(t1); };
+    layout(); world.style.transition = 'none'; reset(); world.offsetHeight; world.style.transition = '';
+    mesaCleanup = function () { window.removeEventListener('resize', onResize); clearTimeout(t1); };
   }
 
   /* Portada: objetos que se arrastran y vuelven a su sitio al soltarlos */
