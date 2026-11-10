@@ -706,3 +706,10 @@ body { padding-top: var(--ph); }
   mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0, transparent 4%, #000 20%, #000 93%, transparent 100%);
 }
 .mesa__close { -webkit-mask-image: url("assets/img/mesa-close-mask.png?v=3"); mask-image: url("assets/img/mesa-close-mask.png?v=3"); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-composite: source-over; mask-composite: add; }
+
+/* ===== mesa fx: dice & coins ===== */
+.fx { position: absolute; inset: 0; pointer-events: none; transform: translate(var(--px, 0px), var(--py, 0px)); transition: transform .25s ease-out; }
+.fx-o { position: absolute; padding: 0; border: 0; background: none; pointer-events: auto; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.fx-o img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(8px 14px 9px rgba(0,0,0,.5)); -webkit-user-select: none; user-select: none; }
+.fx-o:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-offset: 4px; }
+.fx-o.is-hop img { filter: drop-shadow(26px 46px 22px rgba(0,0,0,.35)); transition: filter .2s; }

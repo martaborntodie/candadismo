@@ -120,7 +120,7 @@
       lim.sMax = lim.sInit * 2.6;
       apply();
     }
-    function reset() { st = { s: lim.sInit, cx: vwPortrait() ? FX + 60 : FX, cy: FY, rx: 0, rz: 0 }; apply(); }
+    function reset() { st = { px: 0, py: 0, s: lim.sInit, cx: vwPortrait() ? FX + 60 : FX, cy: FY, rx: 0, rz: 0 }; apply(); }
     function vwPortrait() { return stage.clientWidth < 861; }
     function apply() {
       var vw = stage.clientWidth, vh = stage.clientHeight;
@@ -130,7 +130,7 @@
       st.cx = IW / 2 <= hw ? IW / 2 : clamp(st.cx, hw, IW - hw);
       st.cy = IH / 2 <= hh ? IH / 2 : clamp(st.cy, hh, IH - hh);
       world.style.transformOrigin = st.cx + 'px ' + st.cy + 'px';
-      world.style.transform = 'translate(' + (vw / 2 - st.cx) + 'px,' + (vh / 2 - st.cy) + 'px) rotateX(' + st.rx + 'deg) rotateZ(' + st.rz + 'deg) scale(' + st.s + ')';
+      world.style.transform = 'translate(' + (vw / 2 - st.cx) + 'px,' + (vh / 2 - st.cy) + 'px) rotateX(' + (st.rx + (st.py || 0) * -5) + 'deg) rotateY(' + ((st.px || 0) * 5) + 'deg) rotateZ(' + st.rz + 'deg) scale(' + st.s + ')';
       if (cur) placeLabel(cur);
     }
     var pts = {}, start = null, moved = false, pinch0 = null;
@@ -157,7 +157,7 @@
     function up(e) {
       delete pts[e.pointerId];
       if (Object.keys(pts).length < 2) { pinch0 = null; stage.classList.remove('is-pinching'); }
-      if (!Object.keys(pts).length) { start = null; stage.classList.remove('is-dragging'); setTimeout(function () { moved = false; }, 30); }
+      if (!Object.keys(pts).length) { start = null; stage.classList.remove('is-dragging'); window.__mesaDrag = moved; setTimeout(function () { moved = false; window.__mesaDrag = false; }, 30); }
     }
     function zoomTo(ns, ex, ey) {
       var r = stage.getBoundingClientRect(), old = st.s; ns = clamp(ns, lim.sMin, lim.sMax);
@@ -208,8 +208,102 @@
     if (window.matchMedia && matchMedia('(hover: none)').matches) {
       t1 = setTimeout(function () { setHot('ia'); }, 900);
     }
+    initMesaFx();
+    /* profundidad: al mover el ratón la mesa se inclina un poco y dados/monedas se desplazan más que el fondo */
+    var fxBox = document.getElementById('mesaFx');
+    function parallax(e) {
+      if (start) return;
+      var r = stage.getBoundingClientRect(), nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+      st.px = nx; st.py = ny; apply();
+      if (fxBox) { fxBox.style.setProperty('--px', (-nx * 14) + 'px'); fxBox.style.setProperty('--py', (-ny * 10) + 'px'); }
+    }
+    stage.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') parallax(e); });
+    function orient(e) {
+      if (e.gamma == null) return;
+      st.px = Math.max(-.5, Math.min(.5, e.gamma / 60)); st.py = Math.max(-.5, Math.min(.5, (e.beta - 40) / 60)); apply();
+      if (fxBox) { fxBox.style.setProperty('--px', (-st.px * 14) + 'px'); fxBox.style.setProperty('--py', (-st.py * 10) + 'px'); }
+    }
+    window.addEventListener('deviceorientation', orient);
     layout(); world.style.transition = 'none'; reset(); world.offsetHeight; world.style.transition = '';
-    mesaCleanup = function () { window.removeEventListener('resize', onResize); clearTimeout(t1); };
+    mesaCleanup = function () { window.removeEventListener('resize', onResize); window.removeEventListener('deviceorientation', orient); clearTimeout(t1); };
+  }
+
+  /* Mesa: dados que ruedan y monedas que se caen */
+  function initMesaFx(onTilt) {
+    var box = document.getElementById('mesaFx');
+    if (!box) return;
+    var meta = JSON.parse(box.getAttribute('data-meta'));
+    var els = {}, dice = [], groups = { cR: [], cL: [] };
+    Object.keys(meta).forEach(function (k) {
+      var m = meta[k], b = document.createElement('button');
+      b.type = 'button'; b.className = 'fx-o'; b.setAttribute('aria-label', k.charAt(0) === 'd' ? 'Dado' : 'Moneda');
+      b.style.left = m[0] + 'px'; b.style.top = m[1] + 'px'; b.style.width = m[2] + 'px'; b.style.height = m[3] + 'px'; b.style.zIndex = m[4];
+      b.innerHTML = '<img src="assets/img/fx/' + k + '.webp" alt="" draggable="false">';
+      b._k = k; b._x = 0; b._y = 0; b._r = 0;
+      box.appendChild(b); els[k] = b;
+      if (k.charAt(0) === 'd') dice.push(b); else groups[k.slice(0, 2)].push(b);
+    });
+    function rnd(a, b) { return a + Math.random() * (b - a); }
+    function tr(x, y, r, s) { return 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg) scale(' + s + ')'; }
+    /* dado: salta, gira y cae mostrando otra cara */
+    var faces = ['d1', 'd2', 'd3', 'd4', 'd5'];
+    function roll(b) {
+      if (b._busy) return; b._busy = true;
+      var x0 = b._x, y0 = b._y, r0 = b._r;
+      var x1 = Math.max(-160, Math.min(160, x0 + rnd(-110, 110))), y1 = Math.max(-120, Math.min(120, y0 + rnd(-80, 80)));
+      var r1 = r0 + (Math.random() < .5 ? -1 : 1) * rnd(300, 620);
+      var mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+      b.classList.add('is-hop');
+      var a = b.animate([
+        { transform: tr(x0, y0, r0, 1) },
+        { transform: tr(mx, my - 150, r0 + (r1 - r0) * .45, 1.14), offset: .35 },
+        { transform: tr(x1 + (x1 - x0) * .1, y1 - 30, r0 + (r1 - r0) * .85, 1.04), offset: .7 },
+        { transform: tr(x1, y1, r1, 1), offset: .86 },
+        { transform: tr(x1, y1 - 12, r1 + 4, 1.01), offset: .93 },
+        { transform: tr(x1, y1, r1, 1) }
+      ], { duration: 1050, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'forwards' });
+      setTimeout(function () {
+        var cur = b.querySelector('img').getAttribute('src'), pick;
+        do { pick = faces[Math.floor(Math.random() * faces.length)]; } while (cur.indexOf(pick + '.webp') > -1);
+        b.querySelector('img').setAttribute('src', 'assets/img/fx/' + pick + '.webp');
+      }, 420);
+      a.onfinish = function () { b._x = x1; b._y = y1; b._r = r1 % 360; b.style.transform = tr(b._x, b._y, b._r, 1); a.cancel(); b.classList.remove('is-hop'); b._busy = false; };
+    }
+    /* monedas: el montón se derrumba y se desparrama; otro toque las recoge */
+    var spread = { cR: false, cL: false };
+    function coins(g) {
+      var list = groups[g]; if (!list.length || list._busy) return; list._busy = true;
+      var cx = 0, cy = 0;
+      list.forEach(function (b) { var m = meta[b._k]; cx += m[0] + m[2] / 2; cy += m[1] + m[3] / 2; });
+      cx /= list.length; cy /= list.length;
+      var out = !spread[g]; spread[g] = out;
+      var done = 0;
+      list.forEach(function (b, i) {
+        var m = meta[b._k], vx = m[0] + m[2] / 2 - cx, vy = m[1] + m[3] / 2 - cy, d = Math.hypot(vx, vy) || 1;
+        var tx = 0, ty = 0, trr = 0;
+        if (out) {
+          var push = rnd(90, 240) * (b._k === 'cRs' ? .6 : 1);
+          var ang = Math.atan2(vy, vx) + rnd(-.6, .6);
+          if (g === 'cR') ang = Math.PI + rnd(-.9, .9) * (vy > 0 ? -1 : 1) * .7;   /* a la derecha no hay mesa visible: hacia dentro */
+          if (g === 'cL') ang = rnd(-1.3, .2);                                       /* hacia arriba y a la derecha */
+          tx = Math.cos(ang) * push; ty = Math.sin(ang) * push * .7; trr = rnd(-25, 25);
+        }
+        var x0 = b._x, y0 = b._y, r0 = b._r;
+        var a = b.animate([
+          { transform: tr(x0, y0, r0, 1) },
+          { transform: tr(x0 + (tx - x0) * .45, y0 + (ty - y0) * .45 - (out ? 60 : 30), r0 + (trr - r0) * .6, 1.06), offset: .4 },
+          { transform: tr(tx, ty, trr, 1), offset: .78 },
+          { transform: tr(tx + (tx - x0) * .04, ty - 6, trr, 1), offset: .88 },
+          { transform: tr(tx, ty, trr, 1) }
+        ], { duration: 700 + i * 70, delay: i * 45, easing: 'cubic-bezier(.25,.7,.35,1)', fill: 'forwards' });
+        a.onfinish = function () { b._x = tx; b._y = ty; b._r = trr; b.style.transform = tr(tx, ty, trr, 1); a.cancel(); if (++done === list.length) list._busy = false; };
+      });
+    }
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('.fx-o'); if (!b) return;
+      e.preventDefault();
+      if (b._k.charAt(0) === 'd') roll(b); else coins(b._k.slice(0, 2));
+    });
   }
 
   /* Portada: objetos que se arrastran y vuelven a su sitio al soltarlos */
@@ -336,12 +430,17 @@
 
   /* Navegación sin recargar, para que la música siga sonando al cambiar de página */
   var app = document.getElementById('app');
+  function norm(path) { return path.replace(/\/index\.html$/, '/').replace(/\.html$/, ''); }
   function isInternal(a) {
-    if (!a || a.target === '_blank' || a.hasAttribute('download')) return false;
-    var href = a.getAttribute('href') || '';
-    if (/^(mailto:|tel:|#)/.test(href)) return false;
+    if (!a) return false;
+    var tgt = a.getAttribute('target');
+    if (tgt === '_blank' || a.hasAttribute('download')) return false;
+    var href = a.getAttribute('href') || a.getAttribute('xlink:href') || '';
+    if (!href || /^(mailto:|tel:|javascript:|#)/i.test(href)) return false;
     var u = new URL(href, location.href);
-    return u.origin === location.origin && /\.html$|\/$/.test(u.pathname) && u.pathname !== location.pathname;
+    if (u.origin !== location.origin) return false;
+    if (/\.(jpe?g|png|webp|gif|mp4|pdf|zip)$/i.test(u.pathname)) return false;
+    return norm(u.pathname) !== norm(location.pathname) || !u.hash;
   }
   function go(url, push) {
     fetch(url).then(function (r) { if (!r.ok) throw 0; return r.text(); }).then(function (html) {
@@ -351,20 +450,27 @@
       app.innerHTML = next.innerHTML;
       document.body.className = doc.body.className;
       document.title = doc.title;
+      go._retry = 0;
       if (push) history.pushState({}, '', url);
       var hash = new URL(url, location.href).hash;
       var t = hash && document.querySelector(hash);
       if (t) t.scrollIntoView(); else window.scrollTo(0, 0);
       initPage();
-    }).catch(function () { location.href = url; });
+    }).catch(function () { if (!go._retry) { go._retry = 1; setTimeout(function () { go(url, push); }, 300); } else { go._retry = 0; location.href = url; } });
   }
   if (app && window.fetch && window.DOMParser && location.protocol !== 'file:') {
     document.addEventListener('click', function (e) {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest && e.target.closest('a[href]');
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (window.__mesaDrag && e.target.closest && e.target.closest('#mesaStage')) { e.preventDefault(); e.stopPropagation(); return; }
+      var a = e.target.closest && e.target.closest('a[href], a[*|href]');
       if (!isInternal(a)) return;
-      e.preventDefault(); go(new URL(a.getAttribute('href'), location.href).href, true);
-    });
+      var u = new URL(a.getAttribute('href') || a.getAttribute('xlink:href'), location.href);
+      e.preventDefault();
+      if (norm(u.pathname) === norm(location.pathname)) {           /* mismo sitio: solo saltar al ancla */
+        var t = u.hash && document.querySelector(u.hash); if (t) t.scrollIntoView({ behavior: 'smooth' }); return;
+      }
+      go(u.href, true);
+    }, true);
     window.addEventListener('popstate', function () { go(location.href, false); });
   }
 })();
