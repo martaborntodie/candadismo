@@ -15,6 +15,7 @@
     var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
     initSlides();
     initDrag();
+    initDice();
     initMesa();
     if (window.initOracle) window.initOracle();
     initProjects();
@@ -304,6 +305,78 @@
       e.preventDefault();
       if (b._k.charAt(0) === 'd') roll(b); else coins(b._k.slice(0, 2));
     });
+  }
+
+  /* Portada: dados plateados que flotan; se cogen, se lanzan con gravedad; un toque lleva al oráculo */
+  function initDice() {
+    var layer = document.getElementById('diceLayer');
+    if (!layer || layer._on) return; layer._on = true;
+    var dice = Array.prototype.slice.call(layer.querySelectorAll('.die'));
+    var G = 2400, BOUNCE = .45, FRICTION = .86, AIR = .999;
+    var W = 0, H = 0, t0 = performance.now();
+    function size() { W = layer.clientWidth; H = layer.clientHeight; }
+    size(); window.addEventListener('resize', size);
+    dice.forEach(function (d, i) {
+      var sz = d.offsetWidth;
+      d._s = { x: parseFloat(d.dataset.x) * W - sz / 2, y: parseFloat(d.dataset.y) * H - sz / 2, vx: 0, vy: 0, r: (i * 37) % 360, vr: 0,
+               mode: 'float', ph: i * 2.1, held: false, moved: false };
+      d.addEventListener('pointerdown', function (e) {
+        if (e.button) return;
+        e.preventDefault();
+        var st = d._s; st.held = true; st.moved = false; st.mode = 'held';
+        st.gx = e.clientX - st.x; st.gy = e.clientY - st.y; st.hist = [{ x: e.clientX, y: e.clientY, t: performance.now() }];
+        st.downX = e.clientX; st.downY = e.clientY;
+        d.classList.add('is-held'); try { d.setPointerCapture(e.pointerId); } catch (er) {}
+      });
+      d.addEventListener('pointermove', function (e) {
+        var st = d._s; if (!st.held) return;
+        if (Math.abs(e.clientX - st.downX) + Math.abs(e.clientY - st.downY) > 6) st.moved = true;
+        st.x = e.clientX - st.gx; st.y = e.clientY - st.gy;
+        st.hist.push({ x: e.clientX, y: e.clientY, t: performance.now() }); if (st.hist.length > 6) st.hist.shift();
+      });
+      function release() {
+        var st = d._s; if (!st.held) return;
+        st.held = false; d.classList.remove('is-held');
+        var h = st.hist, a = h[0], b = h[h.length - 1], dt = Math.max((b.t - a.t) / 1000, .016);
+        st.vx = (b.x - a.x) / dt; st.vy = (b.y - a.y) / dt;
+        st.vx = Math.max(-3500, Math.min(3500, st.vx)); st.vy = Math.max(-3500, Math.min(3500, st.vy));
+        st.vr = st.vx * .4 + (Math.random() - .5) * 300;
+        st.mode = 'fall';
+        d._clicked = !st.moved;
+      }
+      d.addEventListener('pointerup', release);
+      d.addEventListener('pointercancel', release);
+      function goOracle() { var a = layer.querySelector('.die-go'); if (a) a.click(); }
+      d.addEventListener('pointerup', function () { if (d._clicked) { d._clicked = false; goOracle(); } });
+      d.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goOracle(); } });
+    });
+    var last = performance.now();
+    function tick(now) {
+      if (!layer.isConnected) { window.removeEventListener('resize', size); return; }
+      var dt = Math.min((now - last) / 1000, .033); last = now;
+      dice.forEach(function (d) {
+        var st = d._s, sz = d.offsetWidth;
+        if (st.mode === 'float') {
+          var t = (now - t0) / 1000;
+          var fx = st.x + Math.sin(t * .7 + st.ph) * 10, fy = st.y + Math.sin(t * 1.1 + st.ph) * 14;
+          d.style.transform = 'translate(' + fx + 'px,' + fy + 'px) rotate(' + (st.r + Math.sin(t * .6 + st.ph) * 8) + 'deg)';
+          return;
+        }
+        if (st.mode === 'fall') {
+          st.vy += G * dt; st.vx *= AIR;
+          st.x += st.vx * dt; st.y += st.vy * dt; st.r += st.vr * dt;
+          var floor = H - sz - 4;
+          if (st.y > floor) { st.y = floor; if (Math.abs(st.vy) > 120) { st.vy = -st.vy * BOUNCE; st.vr = st.vx * .5; } else { st.vy = 0; } st.vx *= FRICTION; st.vr *= .8; }
+          if (st.x < 0) { st.x = 0; st.vx = -st.vx * BOUNCE; }
+          if (st.x > W - sz) { st.x = W - sz; st.vx = -st.vx * BOUNCE; }
+          if (st.y < -sz * 3) { st.y = -sz * 3; st.vy = 0; }
+          if (st.y >= floor && Math.abs(st.vx) < 6 && st.vy === 0) { st.vx = 0; st.vr = 0; st.r = Math.round(st.r / 90) * 90; st.mode = 'rest'; }
+        }
+        d.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px) rotate(' + st.r + 'deg)';
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   /* Portada: objetos que se arrastran y vuelven a su sitio al soltarlos */
