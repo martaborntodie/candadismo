@@ -576,3 +576,5 @@ body { padding-top: var(--ph); }
 .has-crew:hover .crew, .has-crew:focus-within .crew { pointer-events: auto; }
 .has-crew .crew a { color: #e6e8eb; text-decoration: none; border-bottom: 1px solid #5a5f66; }
 .has-crew .crew a:hover { color: #fff; border-color: #fff; }
+.has-crew .crew a { border-bottom: 0; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #5a5f66; }
+.dj__venues li > .crew-link:hover .venue { color: #c4c8ce; }
