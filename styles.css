@@ -573,3 +573,6 @@ body { padding-top: var(--ph); }
 .has-crew:has(.crew-link) { cursor: pointer; }
 .has-crew:focus-within .venue { opacity: 0; transform: translateY(-6px); }
 .has-crew:focus-within .crew { opacity: 1; transform: translateY(-50%); }
+.has-crew:hover .crew, .has-crew:focus-within .crew { pointer-events: auto; }
+.has-crew .crew a { color: #e6e8eb; text-decoration: none; border-bottom: 1px solid #5a5f66; }
+.has-crew .crew a:hover { color: #fff; border-color: #fff; }
