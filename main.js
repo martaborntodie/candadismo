@@ -33,8 +33,50 @@
     Array.prototype.forEach.call(vids, function (v) { v.muted = true; io.observe(v); });
   }
 
+  /* Mosaico sin CSS columns (Safari en iPhone pinta mal los vídeos dentro de columnas) */
+  function ratioOf(el) {
+    var m = el.querySelector('img, video');
+    if (!m) return 1;
+    var w = +m.getAttribute('width') || m.naturalWidth || m.videoWidth || 1;
+    var h = +m.getAttribute('height') || m.naturalHeight || m.videoHeight || 1;
+    return h / w;
+  }
+  function masonry(box, cols) {
+    if (!box) return;
+    var items = box._items || Array.prototype.slice.call(box.children);
+    box._items = items;
+    if (box._cols === cols) return;
+    box._cols = cols;
+    box.innerHTML = '';
+    box.classList.add('is-masonry');
+    var colEls = [], heights = [];
+    for (var c = 0; c < cols; c++) {
+      var d = document.createElement('div'); d.className = 'masonry-col';
+      box.appendChild(d); colEls.push(d); heights.push(0);
+    }
+    items.forEach(function (it) {
+      var k = heights.indexOf(Math.min.apply(null, heights));
+      colEls[k].appendChild(it); heights[k] += ratioOf(it);
+    });
+  }
+  function galleryCols() { return window.innerWidth <= 860 ? 2 : 3; }
+  function modalCols() { return window.innerWidth >= 1100 ? 3 : 2; }
+  var mResize = null;
+  function initMasonry() {
+    masonry(document.querySelector('.gallery'), galleryCols());
+    if (!mResize) {
+      mResize = true;
+      window.addEventListener('resize', function () {
+        masonry(document.querySelector('.gallery'), galleryCols());
+        var g = document.querySelector('.pm[open] .pm__media--grid:not(.pm__media--wide)');
+        if (g) masonry(g, modalCols());
+      });
+    }
+  }
+
   /* Página IA: al pulsar una imagen se abre el proyecto */
   function initProjects() {
+    initMasonry();
     initLazyVideos();
     var modal = document.getElementById('projectModal');
     if (!modal) return;
@@ -45,6 +87,7 @@
         inner.innerHTML = ''; inner.appendChild(tpl.content.cloneNode(true));
         if (modal.showModal) modal.showModal(); else modal.setAttribute('open', '');
         modal.scrollTop = 0;
+        var grid = inner.querySelector('.pm__media--grid:not(.pm__media--wide)'); if (grid) masonry(grid, modalCols());
         var first = inner.querySelector('.pm__media--grid video'); if (first) { var pp = first.play(); if (pp && pp.catch) pp.catch(function () {}); }
       });
     });
