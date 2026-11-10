@@ -713,3 +713,23 @@ body { padding-top: var(--ph); }
 .fx-o img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(8px 14px 9px rgba(0,0,0,.5)); -webkit-user-select: none; user-select: none; }
 .fx-o:focus-visible { outline: 2px solid rgba(255,255,255,.6); outline-offset: 4px; }
 .fx-o.is-hop img { filter: drop-shadow(26px 46px 22px rgba(0,0,0,.35)); transition: filter .2s; }
+
+/* ===== hover: objects react ===== */
+.fx-hov { position: absolute; inset: 0; pointer-events: none; transform: translate(calc(var(--px, 0px) * .6), calc(var(--py, 0px) * .6)); transition: transform .25s ease-out; }
+.mesa__close .mesa__svg { z-index: 3; }
+.fx { z-index: 4; }
+.fx-h { position: absolute; pointer-events: none; transition: transform .55s cubic-bezier(.3,1.5,.5,1), filter .4s; transform-origin: 50% 85%; will-change: transform; }
+.fx-h img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.fx-h__on { opacity: 0; }
+.mesa.is-ia .fx-h__on { animation: screen-on2 .8s steps(1, end) forwards; }
+.mesa.is-ia .fx-h--phone { transform: translate(-4px, -16px) rotate(-1.2deg) scale(1.025); filter: drop-shadow(0 22px 16px rgba(0,0,0,.6)); }
+.fx-h--budL { transform-origin: 70% 30%; }
+.fx-h--budR { transform-origin: 20% 40%; transition-delay: .06s; }
+.mesa.is-dj .fx-h--budL { transform: translate(-6px, -30px) rotate(-14deg) scale(1.08); filter: drop-shadow(0 30px 12px rgba(0,0,0,.55)); }
+.mesa.is-dj .fx-h--budR { transform: translate(4px, -18px) rotate(10deg) scale(1.05); filter: drop-shadow(0 20px 10px rgba(0,0,0,.5)); }
+.fx-h--cardF { transform-origin: 20% 95%; }
+.fx-h--cardM { transform-origin: 30% 95%; transition-delay: .05s; }
+.mesa.is-or .fx-h--cardF { transform: translate(26px, -26px) rotate(7deg); filter: drop-shadow(-10px 26px 18px rgba(0,0,0,.55)); }
+.mesa.is-or .fx-h--cardM { transform: translate(6px, -14px) rotate(2.5deg); filter: drop-shadow(-6px 16px 12px rgba(0,0,0,.45)); }
+/* la animación antigua de pantalla de la capa base ya no hace falta */
+.mesa.is-ia .mesa__c--on { animation: none; opacity: 0; }
