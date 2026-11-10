@@ -56,9 +56,9 @@
 
   /* Portada: objetos que se arrastran y vuelven a su sitio al soltarlos */
   function initDrag() {
-    var items = document.querySelectorAll('.door .drag');
+    var items = document.querySelectorAll('.drag');
     Array.prototype.forEach.call(items, function (el) {
-      var door = el.closest('.door'), sx = 0, sy = 0, dx = 0, dy = 0, down = false, moved = false, id = null;
+      var door = el.closest('.door') || el.parentNode, sx = 0, sy = 0, dx = 0, dy = 0, down = false, moved = false, id = null;
       el.addEventListener('pointerdown', function (e) {
         if (e.button !== 0) return;
         down = true; moved = false; id = e.pointerId; sx = e.clientX; sy = e.clientY; dx = dy = 0;
@@ -139,9 +139,9 @@
 
   /* Portada: objetos que se arrastran y vuelven a su sitio al soltarlos */
   function initDrag() {
-    var items = document.querySelectorAll('.door .drag');
+    var items = document.querySelectorAll('.drag');
     Array.prototype.forEach.call(items, function (el) {
-      var door = el.closest('.door'), sx = 0, sy = 0, dx = 0, dy = 0, down = false, moved = false, id = null;
+      var door = el.closest('.door') || el.parentNode, sx = 0, sy = 0, dx = 0, dy = 0, down = false, moved = false, id = null;
       el.addEventListener('pointerdown', function (e) {
         if (e.button !== 0) return;
         down = true; moved = false; id = e.pointerId; sx = e.clientX; sy = e.clientY; dx = dy = 0;
