@@ -238,7 +238,7 @@
       var m = meta[k], b = document.createElement('button');
       b.type = 'button'; b.className = 'fx-o'; b.setAttribute('aria-label', k.charAt(0) === 'd' ? 'Dado' : 'Moneda');
       b.style.left = m[0] + 'px'; b.style.top = m[1] + 'px'; b.style.width = m[2] + 'px'; b.style.height = m[3] + 'px'; b.style.zIndex = m[4];
-      b.innerHTML = '<img src="assets/img/fx/' + k + '.webp" alt="" draggable="false">';
+      b.innerHTML = '<img src="assets/img/fx/' + k + '.webp?v=3" alt="" draggable="false">';
       b._k = k; b._x = 0; b._y = 0; b._r = 0;
       box.appendChild(b); els[k] = b;
       if (k.charAt(0) === 'd') dice.push(b); else groups[k.slice(0, 2)].push(b);
@@ -265,7 +265,7 @@
       setTimeout(function () {
         var cur = b.querySelector('img').getAttribute('src'), pick;
         do { pick = faces[Math.floor(Math.random() * faces.length)]; } while (cur.indexOf(pick + '.webp') > -1);
-        b.querySelector('img').setAttribute('src', 'assets/img/fx/' + pick + '.webp');
+        b.querySelector('img').setAttribute('src', 'assets/img/fx/' + pick + '.webp?v=3');
       }, 420);
       a.onfinish = function () { b._x = x1; b._y = y1; b._r = r1 % 360; b.style.transform = tr(b._x, b._y, b._r, 1); a.cancel(); b.classList.remove('is-hop'); b._busy = false; };
     }
