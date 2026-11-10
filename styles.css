@@ -555,3 +555,10 @@ body { padding-top: var(--ph); }
 .nav__logo--img { background: none !important; -webkit-text-stroke: 0 !important; line-height: 0; }
 .nav__logo--img img { height: 40px; width: auto; display: block; }
 @media (max-width: 860px) { .nav__logo--img img { height: 30px; } }
+.dj__dates { padding: 10px var(--pad) 0; }
+.dj__dates ul { list-style: none; }
+.dj__dates li { display: grid; grid-template-columns: 140px 1fr auto; align-items: baseline; gap: 20px; padding: 14px 0; border-top: 1px solid #2a2a2a; border-bottom: 1px solid #2a2a2a; }
+.dj__date { font-family: var(--display); font-size: clamp(32px, 3.4vw, 48px); background: var(--worn); background-blend-mode: multiply; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dj__where { font-family: var(--display); font-size: clamp(22px, 2.2vw, 32px); text-transform: uppercase; color: var(--paper); }
+.dj__dates em { font-style: normal; font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }
+@media (max-width: 860px) { .dj__dates li { grid-template-columns: 90px 1fr; } .dj__dates em { grid-column: 2; } }
