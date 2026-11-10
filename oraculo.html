@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oráculo — Candadismo</title>
+<meta name="description" content="Candadismo — Marta Cruz Ortiz, Barcelona-based AI Creative / Visual & Video Designer, and DJ as Candadismo (Deprerreo collective).">
+<meta property="og:title" content="Candadismo — AI Creative & DJ">
+<meta property="og:description" content="AI video & visual content for music, fashion and culture. DJ as Candadismo.">
+<meta property="og:image" content="assets/img/og.jpg">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=5">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body class="page-dj page-oracle">
+<div id="player" class="player"></div>
+<div id="app">
+<header class="nav">
+  <a href="index.html" class="nav__logo nav__logo--img"><img src="assets/img/candadismo-logo.png?v=2" alt="Candadismo"></a>
+  <nav class="nav__links">
+    <a href="ia.html"><span class="en">AI Creative</span><span class="es">Trabajos IA</span></a>
+    <a href="dj.html">DJ</a>
+  </nav>
+  <button class="lang" id="langBtn" aria-label="Cambiar idioma / Switch language"><span data-l="en">EN</span> / <span data-l="es">ES</span></button>
+</header>
+
+<section class="oraculo" id="oraculo">
+  <div class="or-head">
+    <a class="mono or-back" href="index.html">← Home</a>
+    <h1 class="display or-title"><span class="en">ORACLE</span><span class="es">ORÁCULO</span></h1>
+    <p class="or-sub"><span class="en">Marseille tarot · three-card spread. Breathe, think of your question and pick three cards.</span><span class="es">Tarot de Marsella · tirada de tres cartas. Respira, piensa en tu pregunta y elige tres cartas.</span></p>
+  </div>
+  <div class="or-slots">
+    <div class="or-slot"><p class="mono"><span class="en">What’s playing</span><span class="es">Lo que suena</span></p><div class="or-slot__card"></div></div>
+    <div class="or-slot"><p class="mono"><span class="en">What’s stuck</span><span class="es">Lo que se atasca</span></p><div class="or-slot__card"></div></div>
+    <div class="or-slot"><p class="mono"><span class="en">What’s coming</span><span class="es">Lo que viene</span></p><div class="or-slot__card"></div></div>
+  </div>
+  <div class="or-reading" aria-live="polite"></div>
+  <p class="mono or-hint"><span class="en">Pick three cards</span><span class="es">Elige tres cartas</span></p>
+  <button class="btn btn--line or-again" type="button" hidden><span class="en">Shuffle again</span><span class="es">Volver a barajar</span></button>
+  <div class="or-deck"></div>
+</section>
+</div>
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script src="player.js"></script>
+<script src="oracle.js?v=3"></script>
+<script src="main.js?v=9"></script>
+</body>
+</html>
