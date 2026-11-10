@@ -514,3 +514,4 @@ body { padding-top: var(--ph); }
 .gate .cdj { width: clamp(240px, 31vw, 480px); }
 .gate__doors { padding-bottom: 10px; }
 .float-logo { filter: none; }
+.float-logo { width: min(46vw, 300px); } .gate__head--logo { padding-top: 14px; }
