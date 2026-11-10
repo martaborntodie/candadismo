@@ -532,3 +532,5 @@ body { padding-top: var(--ph); }
 .big, .nav__logo, .dj__title, .door__title, .gate__logo { -webkit-text-stroke: 1.5px #0b0b0b !important; paint-order: stroke fill; }
 .dj__top .dj__title, .big { -webkit-text-stroke: 2px #0b0b0b !important; }
 .dj__title { filter: drop-shadow(0 0 1px #000) !important; }
+.gate__head--logo { padding-top: 46px !important; } @media (max-width: 860px) { .gate__head--logo { padding-top: 40px !important; } }
+.gate { padding-bottom: 14px; } .gate__doors { padding-top: 0; padding-bottom: 0; }
