@@ -569,3 +569,7 @@ body { padding-top: var(--ph); }
 .has-crew:hover .venue, .has-crew:focus .venue { opacity: 0; transform: translateY(-6px); }
 .has-crew:hover .crew, .has-crew:focus .crew { opacity: 1; transform: translateY(-50%); }
 .has-crew .venue::after { content: " +"; color: var(--grey); font-size: .6em; vertical-align: super; }
+.crew-link { display: flex; justify-content: space-between; width: 100%; color: inherit; text-decoration: none; cursor: pointer; }
+.has-crew:has(.crew-link) { cursor: pointer; }
+.has-crew:focus-within .venue { opacity: 0; transform: translateY(-6px); }
+.has-crew:focus-within .crew { opacity: 1; transform: translateY(-50%); }
