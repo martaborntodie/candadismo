@@ -552,3 +552,6 @@ body { padding-top: var(--ph); }
 /* remove black outline on silver letters */
 .big, .nav__logo, .dj__title, .door__title, .gate__logo, .dj__top .dj__title { -webkit-text-stroke: 0 !important; }
 .dj__title { filter: drop-shadow(0 4px 18px rgba(0,0,0,.55)) !important; }
+.nav__logo--img { background: none !important; -webkit-text-stroke: 0 !important; line-height: 0; }
+.nav__logo--img img { height: 40px; width: auto; display: block; }
+@media (max-width: 860px) { .nav__logo--img img { height: 30px; } }
