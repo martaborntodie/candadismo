@@ -14,54 +14,30 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=17">
+<link rel="stylesheet" href="styles.css?v=18">
 </head>
-<body class="landing landing--mesa">
+<body class="landing">
 <div id="player" class="player"></div>
 <div id="app">
 <button class="lang lang--float" id="langBtn" aria-label="Cambiar idioma / Switch language"><span data-l="en">EN</span> / <span data-l="es">ES</span></button>
-<main class="mesa" id="mesa">
-  <div class="mesa__stage" id="mesaStage">
-    <div class="mesa__world" id="mesaWorld">
-      <img class="mesa__img" src="assets/img/mesa-wide.jpg?v=2" width="2400" height="1792" alt="" draggable="false">
-      <div class="mesa__close" style="transform:matrix3d(0.371276117,0.00175555648,0,1.80334634e-06,0.0707720525,0.411022545,0,5.86763356e-05,0,0,1,0,754.521439,580.291427,0,1)">
-        <img class="mesa__c mesa__c--off" src="assets/img/mesa-close-off.jpg?v=3" srcset="assets/img/mesa-close-off-sm.jpg?v=3 1400w, assets/img/mesa-close-off.jpg?v=3 3000w" sizes="100vw" width="2400" height="1792" alt="Candadismo — mesa" draggable="false">
-        <img class="mesa__c mesa__c--on" src="assets/img/mesa-close-on.jpg?v=3" srcset="assets/img/mesa-close-on-sm.jpg?v=3 1400w, assets/img/mesa-close-on.jpg?v=3 3000w" sizes="100vw" width="2400" height="1792" alt="" draggable="false">
-        <svg class="mesa__svg" viewBox="0 0 2400 1792" preserveAspectRatio="none">
-          <a href="ia.html" class="hs hs--ia" data-label="ia" aria-label="Portfolio IA"><polygon points="1572,-78 1965,60 1380,568 937,383"/></a>
-          <a href="dj.html" class="hs hs--dj" data-label="dj" aria-label="DJ — Candadismo"><polygon points="1719,335 1906,157 2193,124 2458,183 2499,559 2275,573 1750,446"/></a>
-          <a href="oraculo.html" class="hs hs--or" data-label="or" aria-label="Oráculo"><polygon points="1170,1360 1579,957 1895,951 2554,1527 2110,1861 1838,2059"/></a>
-        </svg>
-        <div class="fx-hov">
-          <div class="fx-h fx-h--cardM" style="left:1296.8px;top:1166.4px;width:757.6px;height:625.6px"><img src="assets/img/fx/h-cardM.webp" alt="" draggable="false"></div>
-          <div class="fx-h fx-h--cardF" style="left:1540.8px;top:956.8px;width:859.2px;height:833.6px"><img src="assets/img/fx/h-cardF.webp" alt="" draggable="false"></div>
-          <div class="fx-h fx-h--phone" style="left:947.2px;top:0.0px;width:1012.8px;height:571.2px"><img src="assets/img/fx/h-phone.webp" alt="" draggable="false"><img class="fx-h__on" src="assets/img/fx/h-phone-on.webp" alt="" draggable="false"></div>
-          <div class="fx-h fx-h--budL" style="left:1728.8px;top:312.8px;width:107.2px;height:139.2px"><img src="assets/img/fx/h-budL.webp" alt="" draggable="false"></div>
-          <div class="fx-h fx-h--budR" style="left:2264.8px;top:416.8px;width:127.2px;height:139.2px"><img src="assets/img/fx/h-budR.webp" alt="" draggable="false"></div>
-        </div>
-        <div class="fx" id="mesaFx" data-meta='{"d1": [649, 256, 152, 195, 5], "d2": [486, 455, 216, 215, 5], "d3": [771, 425, 200, 215, 5], "d4": [858, 1236, 235, 271, 5], "d5": [664, 1423, 268, 282, 5], "cR1": [2024, 772, 229, 155, 3], "cL1": [185, 1301, 260, 208, 3], "cL2": [420, 1403, 268, 224, 3], "cL3": [-41, 1289, 199, 205, 3], "cR2": [2050, 895, 230, 147, 2], "cR3": [2246, 876, 203, 185, 2], "cR4": [2176, 1011, 267, 211, 2], "cL4": [-28, 1448, 232, 197, 2], "cL6": [-11, 1632, 262, 214, 2], "cL7": [314, 1642, 262, 214, 2], "cRs": [2241, 660, 159, 230, 1], "cL5": [171, 1478, 288, 238, 1]}'></div>
-      </div>
-    </div>
+<main class="gate">
+  <header class="gate__head gate__head--logo">
+    <h1 class="gate__title"><span class="drag"><img class="float-logo" src="assets/img/candadismo-logo.png?v=2" alt="Candadismo" draggable="false"></span></h1>
+  </header>
+  <div class="gate__doors">
+    <a class="door door--ia" href="ia.html" aria-label="AI Creative — portfolio IA" draggable="false">
+      <span class="drag"><span class="obj tv">
+        <img draggable="false" class="tv__off" src="assets/img/tv-off.png" alt="">
+        <img draggable="false" class="tv__on" src="assets/img/tv-on.png" alt="">
+        <span class="tv__glow" aria-hidden="true"></span>
+      </span></span>
+    </a>
+    <a class="door door--dj" href="dj.html" aria-label="DJ — Candadismo" draggable="false">
+      <span class="drag"><span class="obj cdj"><img draggable="false" src="assets/img/cdj.png" alt=""></span></span>
+    </a>
   </div>
-  <span class="mesa__label" data-for="ia"><span class="en">AI portfolio</span><span class="es">Portfolio IA</span></span>
-  <span class="mesa__label" data-for="dj">DJ · Candadismo</span>
-  <span class="mesa__label" data-for="or"><span class="en">Oracle</span><span class="es">Oráculo</span></span>
-  <div class="mesa__ui">
-    <p class="mono mesa__hint"><span class="en">Drag to move · scroll or pinch to zoom · shift+drag to tilt</span><span class="es">Arrastra para moverte · rueda o pellizca para alejar/acercar · shift+arrastrar para girar</span></p>
-    <div class="mesa__btns">
-      <button type="button" data-z="in" aria-label="Zoom +">+</button>
-      <button type="button" data-z="out" aria-label="Zoom −">−</button>
-      <button type="button" data-z="reset" aria-label="Reset">⟲</button>
-    </div>
-  </div>
-  <nav class="mesa__menu mono">
-    <a href="ia.html"><span class="en">AI portfolio</span><span class="es">Portfolio IA</span></a>
-    <a href="dj.html">DJ</a>
-    <a href="oraculo.html"><span class="en">Oracle</span><span class="es">Oráculo</span></a>
-  </nav>
-  <footer class="mesa__foot mono">
-    <a href="mailto:martacruzortiz2000@gmail.com"><b>AI</b> martacruzortiz2000@gmail.com</a>
-    <a href="mailto:deprerreoforever@gmail.com"><b>DJ</b> deprerreoforever@gmail.com</a>
+  <footer class="gate__foot mono">
+    <span class="gate__mails"><a href="mailto:martacruzortiz2000@gmail.com"><b>AI</b> martacruzortiz2000@gmail.com</a><a href="mailto:deprerreoforever@gmail.com"><b>DJ</b> deprerreoforever@gmail.com</a></span>
     <a href="https://www.instagram.com/candadismo/" target="_blank" rel="noopener">@candadismo ↗</a>
   </footer>
 </main>
@@ -69,6 +45,6 @@
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script src="player.js"></script>
 <script src="oracle.js?v=3"></script>
-<script src="main.js?v=19"></script>
+<script src="main.js?v=20"></script>
 </body>
 </html>
