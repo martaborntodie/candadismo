@@ -515,3 +515,20 @@ body { padding-top: var(--ph); }
 .gate__doors { padding-bottom: 10px; }
 .float-logo { filter: none; }
 .float-logo { width: min(46vw, 300px); } .gate__head--logo { padding-top: 14px; }
+
+/* ===== back to worn old silver + black outline on big Impact titles ===== */
+:root {
+  --worn: url("assets/img/metal.jpg") 0 0 / 520px, linear-gradient(160deg, #ffffff 0%, #b5b9bf 22%, #f2f3f5 42%, #868c94 62%, #e2e4e7 80%, #a3a8ae 100%);
+  --chrome: var(--worn);
+}
+.big, .door__title, .gate__logo, .nav__logo, .dj__title {
+  background: var(--worn) !important; background-blend-mode: multiply !important;
+  -webkit-background-clip: text !important; background-clip: text !important; color: transparent;
+}
+.btn--pink, .pl-play { background: var(--worn) !important; background-blend-mode: multiply !important; }
+.contact { background-image: linear-gradient(rgba(255,255,255,.38), rgba(255,255,255,.38)), url("assets/img/metal.jpg"), linear-gradient(160deg, #ffffff 0%, #b5b9bf 22%, #f2f3f5 42%, #868c94 62%, #e2e4e7 80%, #a3a8ae 100%) !important; background-size: auto, cover, auto !important; background-blend-mode: normal, multiply, normal !important; }
+.pl-fill { background: linear-gradient(90deg, #8a9097, #f2f3f5); }
+/* black outline */
+.big, .nav__logo, .dj__title, .door__title, .gate__logo { -webkit-text-stroke: 1.5px #0b0b0b !important; paint-order: stroke fill; }
+.dj__top .dj__title, .big { -webkit-text-stroke: 2px #0b0b0b !important; }
+.dj__title { filter: drop-shadow(0 0 1px #000) !important; }
