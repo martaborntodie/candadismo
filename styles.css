@@ -803,3 +803,4 @@ body { padding-top: var(--ph); }
   .or-slots, .oraculo.is-read .or-slots { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; position: static; }
   .oraculo.is-read .or-result { grid-template-columns: 1fr; }
 }
+.dice-layer { bottom: auto; height: calc(100dvh - var(--ph)); }

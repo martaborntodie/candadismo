@@ -318,8 +318,8 @@
     size(); window.addEventListener('resize', size);
     dice.forEach(function (d, i) {
       var sz = d.offsetWidth;
-      d._s = { x: parseFloat(d.dataset.x) * W - sz / 2, y: parseFloat(d.dataset.y) * H - sz / 2, vx: 0, vy: 0, r: (i * 37) % 360, vr: 0,
-               mode: 'float', ph: i * 2.1, held: false, moved: false };
+      d._s = { x: parseFloat(d.dataset.x) * W - sz / 2, y: H - sz - (W < 861 ? 74 : 4), vx: 0, vy: 0, r: [0, 90, 180][i % 3] + (i * 7), vr: 0,
+               mode: 'rest', ph: i * 2.1, held: false, moved: false };
       d.addEventListener('pointerdown', function (e) {
         if (e.button) return;
         e.preventDefault();
@@ -350,9 +350,41 @@
       d.addEventListener('pointerup', function () { if (d._clicked) { d._clicked = false; goOracle(); } });
       d.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goOracle(); } });
     });
+    /* móvil: al agitarlo los dados saltan; al inclinarlo ruedan hacia ese lado */
+    var tiltX = 0;
+    function kick(ax, ay) {
+      dice.forEach(function (d) {
+        var st = d._s; if (st.held) return;
+        st.mode = 'fall';
+        st.vx += -ax * 140 + (Math.random() - .5) * 400;
+        st.vy += -Math.abs(ay) * 120 - 500 - Math.random() * 600;
+        st.vr += (Math.random() - .5) * 1400;
+      });
+    }
+    var lastKick = 0;
+    function onMotion(e) {
+      var a = e.acceleration || e.accelerationIncludingGravity; if (!a) return;
+      var ax = a.x || 0, ay = a.y || 0, az = a.z || 0;
+      var mag = e.acceleration ? Math.hypot(ax, ay, az) : Math.abs(Math.hypot(ax, ay, az) - 9.8);
+      var now = performance.now();
+      if (mag > 11 && now - lastKick > 250) { lastKick = now; kick(ax, ay); }
+    }
+    function onTilt(e) { if (e.gamma != null) tiltX = Math.max(-1, Math.min(1, e.gamma / 35)); }
+    function enableMotion() {
+      window.addEventListener('devicemotion', onMotion);
+      window.addEventListener('deviceorientation', onTilt);
+    }
+    if (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') {
+      /* iPhone: pide permiso con el primer toque en la página */
+      var ask = function () {
+        document.removeEventListener('touchend', ask);
+        DeviceMotionEvent.requestPermission().then(function (r) { if (r === 'granted') enableMotion(); }).catch(function () {});
+      };
+      document.addEventListener('touchend', ask);
+    } else enableMotion();
     var last = performance.now();
     function tick(now) {
-      if (!layer.isConnected) { window.removeEventListener('resize', size); return; }
+      if (!layer.isConnected) { window.removeEventListener('resize', size); window.removeEventListener('devicemotion', onMotion); window.removeEventListener('deviceorientation', onTilt); return; }
       var dt = Math.min((now - last) / 1000, .033); last = now;
       dice.forEach(function (d) {
         var st = d._s, sz = d.offsetWidth;
@@ -362,15 +394,17 @@
           d.style.transform = 'translate(' + fx + 'px,' + fy + 'px) rotate(' + (st.r + Math.sin(t * .6 + st.ph) * 8) + 'deg)';
           return;
         }
+        if (st.mode === 'rest' && Math.abs(tiltX) > .25 && !st.held) { st.mode = 'fall'; }
         if (st.mode === 'fall') {
+          st.vx += tiltX * 900 * dt;
           st.vy += G * dt; st.vx *= AIR;
           st.x += st.vx * dt; st.y += st.vy * dt; st.r += st.vr * dt;
-          var floor = H - sz - 4;
+          var floor = H - sz - (W < 861 ? 74 : 4);
           if (st.y > floor) { st.y = floor; if (Math.abs(st.vy) > 120) { st.vy = -st.vy * BOUNCE; st.vr = st.vx * .5; } else { st.vy = 0; } st.vx *= FRICTION; st.vr *= .8; }
           if (st.x < 0) { st.x = 0; st.vx = -st.vx * BOUNCE; }
           if (st.x > W - sz) { st.x = W - sz; st.vx = -st.vx * BOUNCE; }
           if (st.y < -sz * 3) { st.y = -sz * 3; st.vy = 0; }
-          if (st.y >= floor && Math.abs(st.vx) < 6 && st.vy === 0) { st.vx = 0; st.vr = 0; st.r = Math.round(st.r / 90) * 90; st.mode = 'rest'; }
+          if (st.y >= floor && Math.abs(st.vx) < 6 && st.vy === 0 && Math.abs(tiltX) <= .25) { st.vx = 0; st.vr = 0; st.r = Math.round(st.r / 90) * 90; st.mode = 'rest'; }
         }
         d.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px) rotate(' + st.r + 'deg)';
       });
