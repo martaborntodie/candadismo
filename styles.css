@@ -752,10 +752,10 @@ body { padding-top: var(--ph); }
 .page-dj .videos-label { padding-top: 18px; }
 .page-dj .videos { grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .page-dj .dj { padding-bottom: 40px; }
-.page-dj .contact { padding: 32px var(--pad) 18px; }
-.page-dj .contact .kicker { margin-bottom: 6px; }
-.page-dj .contact__mail { font-size: clamp(22px, 3vw, 40px); }
-.page-dj .contact__links { margin: 14px 0 18px; gap: 18px; font-size: 11px; }
+.page-dj .contact, .page-ia .contact { padding: 32px var(--pad) 18px; }
+.page-dj .contact .kicker, .page-ia .contact .kicker { margin-bottom: 6px; }
+.page-dj .contact__mail, .page-ia .contact__mail { font-size: clamp(22px, 3vw, 40px); }
+.page-dj .contact__links, .page-ia .contact__links { margin: 14px 0 18px; gap: 18px; font-size: 11px; }
 @media (max-width: 860px) { .page-dj .videos { grid-template-columns: 1fr; } }
 .page-dj .videos { grid-template-columns: repeat(2, minmax(0, 420px)); }
 @media (max-width: 860px) { .page-dj .videos { grid-template-columns: 1fr; } }
