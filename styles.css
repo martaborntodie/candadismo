@@ -804,3 +804,20 @@ body { padding-top: var(--ph); }
   .oraculo.is-read .or-result { grid-template-columns: 1fr; }
 }
 .dice-layer { bottom: auto; height: calc(100dvh - var(--ph)); }
+/* DJ: compact "Played at" */
+.dj__venuesrow { padding-top: 14px; }
+.dj__venuesrow .label { margin: 0 0 6px; }
+.dj__venuesrow ul { grid-template-columns: repeat(5, 1fr); column-gap: 22px; }
+.dj__venuesrow li, .dj__venues ul li { padding: 6px 0; font-size: 15px; }
+.dj__venues em { font-size: 9px; }
+.has-crew .crew { font-size: 12px; right: 34px; }
+@media (max-width: 1100px) { .dj__venuesrow ul { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px) { .dj__venuesrow ul { grid-template-columns: 1fr 1fr; } .dj__venuesrow li { font-size: 14px; } }
+/* DJ: "Played at" compact */
+.dj__venuesrow { padding-top: 14px; }
+.dj__venuesrow .label { margin: 0 0 6px; }
+.dj__venuesrow ul { grid-template-columns: repeat(5, 1fr); column-gap: 22px; }
+.dj__venues ul li, .dj__venuesrow li { font-size: 15px; padding: 7px 0; }
+.dj__venues em { font-size: 9px; }
+.has-crew .crew { font-size: 12px; }
+@media (max-width: 860px) { .dj__venuesrow ul { grid-template-columns: 1fr 1fr; } .dj__venuesrow li { font-size: 14px; } }
