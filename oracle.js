@@ -2,76 +2,76 @@
 (function () {
   var C = [
     ['0', 'LE MAT', 'El Loco',
-     'Salir de casa sin saber a qué fiesta vas. Lo mejor de la noche todavía no tiene nombre: déjate llevar, pero lleva el móvil cargado.',
-     'Leaving home without knowing which party you’re going to. The best part of the night has no name yet — let go, but keep your phone charged.'],
+     'La energía pura, sin número fijo. Un impulso que todavía no tiene forma y empuja hacia lo desconocido. Lo que se abre aquí no pide certeza: pide movimiento.',
+     'Pure energy with no fixed number. An impulse that has no shape yet and pushes towards the unknown. What opens here asks not for certainty but for movement.'],
     ['I', 'LE BATELEUR', 'El Mago',
-     'Tienes todo encima de la mesa: los cables, los dados, las ganas. Falta enchufarlo. Empieza con lo que hay.',
-     'Everything is on the table: the cables, the dice, the hunger. It just needs plugging in. Start with what you have.'],
+     'El comienzo. Sobre la mesa están todas las herramientas, aunque aún no sepas usarlas. Una mano apunta al cielo y otra a la tierra: el talento está, falta elegir.',
+     'The beginning. Every tool is on the table, even if you don’t yet know how to use them. One hand points to the sky, one to the earth: the talent is there, the choice is still missing.'],
     ['II', 'LA PAPESSE', 'La Papisa',
-     'Hay un libro abierto que solo lees tú. No lo cuentes todavía: lo que se incuba en silencio sale con más fuerza.',
-     'There’s an open book only you can read. Don’t tell anyone yet: what incubates in silence comes out louder.'],
+     'La acumulación silenciosa. Un libro abierto que se lee hacia dentro. Algo está incubándose y necesita recogimiento antes de nacer.',
+     'Silent accumulation. An open book read inwards. Something is incubating and needs stillness before it can be born.'],
     ['III', 'L’IMPÉRATRICE', 'La Emperatriz',
-     'Temporada de crear sin pedir permiso. Todo lo que tocas florece si lo riegas con deseo y un poco de descaro.',
-     'Season of making without asking for permission. Everything you touch blooms if you water it with desire and a little nerve.'],
+     'La explosión creativa. Lo que estaba guardado brota sin plan, con fertilidad y deseo. Es el momento de producir antes de juzgar.',
+     'The creative explosion. What was held bursts out without a plan, fertile and full of desire. Make first, judge later.'],
     ['IIII', 'L’EMPEREUR', 'El Emperador',
-     'Toca poner orden en el set. Estructura, horarios, contrato firmado. La magia también necesita mesa y patas.',
-     'Time to put the set in order. Structure, schedules, a signed contract. Magic needs a table with legs too.'],
+     'La estabilidad. El trono es cuadrado y el pie firme: estructura, orden, materia. Lo que construyas ahora tendrá cimientos.',
+     'Stability. A square throne and a planted foot: structure, order, matter. What you build now will have foundations.'],
     ['V', 'LE PAPE', 'El Papa',
-     'Alguien que ya ha pasado por ahí tiene algo que decirte. Escucha, aunque luego lo remezcles a tu manera.',
-     'Someone who’s been there has something to tell you. Listen — even if you remix it your own way later.'],
+     'El puente entre dos mundos. Una enseñanza que se transmite, un vínculo entre quien sabe y quien busca. Escucha la voz que señala un ideal.',
+     'The bridge between two worlds. A teaching passed on, a bond between the one who knows and the one who seeks. Listen to the voice pointing to an ideal.'],
     ['VI', 'L’AMOUREUX', 'El Enamorado',
-     'Dos caminos y los dos brillan. Elige con el cuerpo, no con el algoritmo. Lo que te hace bailar es la respuesta.',
-     'Two paths and both are shining. Choose with your body, not the algorithm. Whatever makes you dance is the answer.'],
+     'La elección del corazón. Varias fuerzas tiran de ti y un ángel apunta desde arriba. No es decidir lo correcto: es reconocer lo que te da placer y verdad.',
+     'The choice of the heart. Several forces pull at you while an angel aims from above. It is not about choosing right but recognising what brings you pleasure and truth.'],
     ['VII', 'LE CHARIOT', 'El Carro',
-     'Ruta, gira, maletas. Lo que empezó en tu cuarto ya va en marcha y nadie lo para. Agárrate fuerte a las riendas.',
-     'Road, tour, suitcases. What started in your bedroom is moving and nobody’s stopping it. Hold the reins tight.'],
+     'La acción en el mundo. Un viaje que avanza con dos fuerzas opuestas tirando a la par. El movimiento es ahora; conduce sin soltar ninguna.',
+     'Action in the world. A journey moving forward with two opposite forces pulling side by side. The movement is now; drive without letting go of either.'],
     ['VIII', 'LA JUSTICE', 'La Justicia',
-     'Cuentas claras y facturas pagadas. Lo que das vuelve exacto. Pon precio a tu trabajo y no pidas perdón.',
-     'Clear accounts, paid invoices. What you give comes back exactly. Put a price on your work and don’t apologise.'],
+     'El equilibrio perfecto. La balanza pesa y la espada corta lo que sobra. Recibes exactamente lo que das: ni más, ni menos.',
+     'Perfect balance. The scales weigh and the sword cuts what is excess. You receive exactly what you give: no more, no less.'],
     ['VIIII', 'L’HERMITE', 'El Ermitaño',
-     'Apaga el móvil un rato. La linterna que buscas la llevas tú. Hay respuestas que solo suenan con los cascos puestos.',
-     'Turn your phone off for a while. The lantern you’re looking for is in your hand. Some answers only play with headphones on.'],
+     'La crisis que ilumina. Camina hacia atrás, con la lámpara en alto, dejando atrás un ciclo. La sabiduría llega en soledad.',
+     'The crisis that illuminates. He walks backwards, lamp raised, leaving a cycle behind. Wisdom arrives in solitude.'],
     ['X', 'LA ROUE DE FORTUNE', 'La Rueda de Fortuna',
-     'El plato gira. Lo que hoy está abajo mañana suena en el pico de la noche. Aprovecha la vuelta.',
-     'The platter spins. What’s at the bottom today plays at the peak of the night tomorrow. Ride the turn.'],
+     'El final de un ciclo y el principio de otro. La rueda está detenida y espera una mano que la mueva. Acepta lo que sube y lo que baja.',
+     'The end of one cycle and the start of another. The wheel stands still, waiting for a hand to turn it. Accept what rises and what falls.'],
     ['XI', 'LA FORCE', 'La Fuerza',
-     'Tu fuerza no grita, susurra al oído de la bestia. Doma lo salvaje sin apagarlo.',
-     'Your strength doesn’t shout, it whispers to the beast. Tame the wild thing without switching it off.'],
+     'El nuevo comienzo desde el cuerpo. La fuerza no doma con violencia: dialoga con el animal interior. Lo instintivo se vuelve energía creativa.',
+     'A new beginning from the body. Strength doesn’t tame with violence: it converses with the inner animal. Instinct becomes creative energy.'],
     ['XII', 'LE PENDU', 'El Colgado',
-     'Míralo todo del revés. La pausa no es pérdida: es el silencio antes del drop.',
-     'Look at everything upside down. The pause isn’t loss — it’s the silence before the drop.'],
+     'La pausa voluntaria. Colgado del pie, con las manos ocultas, ve el mundo del revés. No hacer también es una forma de entrega profunda.',
+     'The voluntary pause. Hanging by one foot, hands hidden, seeing the world upside down. Not acting is also a form of deep surrender.'],
     ['XIII', 'ARCANE SANS NOM', 'El Arcano sin nombre',
-     'Algo se corta de raíz para que crezca otra cosa. Suelta lo que ya no suena. Limpieza total de la carpeta.',
-     'Something gets cut at the root so something else can grow. Let go of what no longer plays. Wipe the folder.'],
+     'La transformación radical. La guadaña siega lo muerto para que crezca lo nuevo. No es un final: es la limpieza que precede a la vida.',
+     'Radical transformation. The scythe mows down what is dead so the new can grow. Not an ending: the clearing that comes before life.'],
     ['XIIII', 'TEMPÉRANCE', 'Templanza',
-     'Mezcla con paciencia, como dos pistas que tardan en cuadrar. El punto medio también es un lugar precioso.',
-     'Mix patiently, like two tracks that take a while to lock. The middle ground is a beautiful place too.'],
+     'La circulación. Un ángel pasa el agua de un vaso a otro sin derramarla. Sanación, protección, la mezcla justa de los opuestos.',
+     'Circulation. An angel pours water from one vessel to another without spilling. Healing, protection, the right blend of opposites.'],
     ['XV', 'LE DIABLE', 'El Diablo',
-     'Deseo, ego, cadenas brillantes. Disfruta del fuego, pero mira quién tiene la llave del candado.',
-     'Desire, ego, shiny chains. Enjoy the fire, but check who’s holding the key to the padlock.'],
+     'El deseo y lo oculto. Energía creativa enorme que viene de lo más profundo, con sus lazos y sus pactos. Mira de frente lo que te ata y lo que te enciende.',
+     'Desire and the hidden. Enormous creative energy rising from the depths, with its bonds and pacts. Look straight at what binds you and what sets you alight.'],
     ['XVI', 'LA MAISON DIEU', 'La Casa Dios',
-     'Se cae la estructura y entra la luz. Lo que se rompe hoy deja sitio para una fiesta mejor.',
-     'The structure falls and the light gets in. What breaks today makes room for a better party.'],
+     'La apertura. La torre se abre por arriba y lo encerrado sale a la luz. Una liberación repentina, una fiesta, un estallido de verdad.',
+     'The opening. The tower breaks open at the top and what was locked inside comes into the light. A sudden release, a celebration, an outburst of truth.'],
     ['XVII', 'L’ÉTOILE', 'La Estrella',
-     'Desnuda y en paz, vertiendo lo que tienes sin miedo. Hay una estrella que lleva tu nombre: sigue brillando.',
-     'Naked and at peace, pouring out what you have without fear. There’s a star with your name on it — keep shining.'],
+     'Encontrar tu lugar en el mundo. Desnuda, vierte lo que tiene en la tierra y en el río. Generosidad, confianza, una guía que brilla desde lejos.',
+     'Finding your place in the world. Naked, she pours what she holds into the earth and the river. Generosity, trust, a guide shining from afar.'],
     ['XVIII', 'LA LUNE', 'La Luna',
-     'Noche cerrada, intuición abierta. No todo lo que ves es real ni todo lo real se ve. Confía en tu olfato de bruja.',
-     'Pitch-dark night, wide-open intuition. Not everything you see is real, nor is everything real visible. Trust your witch’s nose.'],
+     'Lo receptivo y lo misterioso. Intuición, sueños, la noche que lo transforma todo. Hay algo que solo puede verse sin luz directa.',
+     'The receptive and the mysterious. Intuition, dreams, the night that transforms everything. Some things can only be seen without direct light.'],
     ['XVIIII', 'LE SOLEIL', 'El Sol',
-     'Amanecer después del after. Claridad, alegría, gente buena alrededor. Lo que sembraste sale a la luz.',
-     'Sunrise after the afterparty. Clarity, joy, good people around you. What you planted comes into the light.'],
+     'El nuevo construir. Dos figuras se apoyan bajo una luz que lo baña todo. Calor, claridad, unión y un muro que se levanta juntos.',
+     'Building anew. Two figures support each other beneath a light that bathes everything. Warmth, clarity, union, and a wall raised together.'],
     ['XX', 'LE JUGEMENT', 'El Juicio',
-     'Una llamada te despierta. Es tu momento de decir sí a lo que siempre supiste que eras.',
-     'A call wakes you up. It’s your moment to say yes to what you always knew you were.'],
+     'El llamado. Una trompeta despierta lo que estaba dormido y algo renace desde abajo. Un deseo irresistible de ser quien eres.',
+     'The call. A trumpet wakes what was asleep and something rises again from below. An irresistible desire to become who you are.'],
     ['XXI', 'LE MONDE', 'El Mundo',
-     'Ciclo cerrado, baile completo. Todo encaja y el mundo es tu pista. Celébralo antes de empezar el siguiente.',
-     'Cycle closed, dance complete. Everything fits and the world is your dancefloor. Celebrate before the next one starts.']
+     'La realización total. Una figura danza dentro de una corona, rodeada por los cuatro elementos. Todo está en su sitio y el ciclo se completa.',
+     'Total fulfilment. A figure dances inside a wreath, surrounded by the four elements. Everything is in its place and the cycle is complete.']
   ];
   var POS = [
-    ['Lo que suena', 'What’s playing'],
-    ['Lo que se atasca', 'What’s stuck'],
-    ['Lo que viene', 'What’s coming']
+    ['Lo que fue', 'What was'],
+    ['Lo que es', 'What is'],
+    ['Lo que se abre', 'What opens']
   ];
 
   function lang() { return document.documentElement.getAttribute('data-lang') === 'es' ? 1 : 0; }
@@ -92,6 +92,7 @@
 
     function deal() {
       picked = [];
+      root.classList.remove('is-read');
       readEl.innerHTML = ''; readEl.classList.remove('is-on');
       againBtn.hidden = true; hint.hidden = false;
       Array.prototype.forEach.call(slots, function (s) { s.querySelector('.or-slot__card').innerHTML = ''; s.classList.remove('is-filled'); });
@@ -124,8 +125,8 @@
           '<p class="or-read__es-name">' + c[2] + '</p>' +
           '<p class="or-read__text">' + c[L ? 3 : 4] + '</p></article>';
       }).join('');
-      readEl.classList.add('is-on'); againBtn.hidden = false; hint.hidden = true;
-      readEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      readEl.classList.add('is-on'); againBtn.hidden = false; hint.hidden = true; root.classList.add('is-read');
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     againBtn.onclick = function () { deal(); root.scrollIntoView({ behavior: 'smooth' }); };
     var lb = document.getElementById('langBtn');
